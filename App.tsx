@@ -1,6 +1,7 @@
-import { Home } from '@screens/Home';
 import defaultTheme from '@theme/defaultTheme';
 import { ThemeProvider } from 'styled-components';
+
+import { Routes } from '@routes/index';
 
 import { useFonts, Baloo2_400Regular, Baloo2_700Bold } from '@expo-google-fonts/baloo-2';
 import { Roboto_400Regular, Roboto_700Bold } from '@expo-google-fonts/roboto';
@@ -24,7 +25,7 @@ export default function App() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Home />
+      <Routes />
     </ThemeProvider>
   );
 }
