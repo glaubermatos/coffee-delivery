@@ -1,9 +1,10 @@
-import { Container, Text } from "./styles";
+import { Container, Text, Text2 } from "./styles";
 
 export function Home() {
     return (
         <Container>
-            <Text>Home screen</Text>
+            <Text>Teste</Text>
+            <Text2>Home screen</Text2>
         </Container>
     )
 }

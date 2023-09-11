@@ -25,7 +25,9 @@ export default {
 
     },
     FONT_FAMILY: {
-      BALOO_2: 'Baloo2_700Bold',
+      BALOO_2: {
+        BOLD: 'Baloo2_700Bold'
+      },
       ROBOTO: {
           REGULAR: 'Roboto_400Regular',
           BOLD: 'Roboto_700Bold'
