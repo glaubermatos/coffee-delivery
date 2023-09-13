@@ -1,20 +1,26 @@
-import { Horse } from 'phosphor-react-native';
+import bgImage from '@assets/image.png'
 
-import ScooterImg from '@assets/scooter.svg'
+import { Container, IntroContainer, IntroImage, Title } from "./styles";
 
-import { Container, Text, Text2 } from "./styles";
+import { SearchInput } from '@components/SearchInput';
+import { HomeHeader } from '@components/HomeHeader';
 
 export function Home() {
     return (
-        <Container>
-            <ScooterImg 
-                width={224}
-                height={288}
-            />
-            
-            <Horse color='white' size={32} />
-            <Text>Teste</Text>
-            <Text2>Home screen</Text2>
+        <Container style={{}}>
+            <IntroContainer>
+                <HomeHeader />
+
+                <Title>
+                    Encontre o café perfeito para qualquer hora do dia
+                </Title>
+
+                <SearchInput placeholder='Pesquisar' />
+
+                <IntroImage 
+                    source={bgImage}
+                />
+            </IntroContainer>
         </Container>
     )
-}
+}   

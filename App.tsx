@@ -1,3 +1,4 @@
+import { StatusBar } from 'expo-status-bar';
 import defaultTheme from '@theme/defaultTheme';
 import { ThemeProvider } from 'styled-components';
 
@@ -8,6 +9,7 @@ import { Roboto_400Regular, Roboto_700Bold } from '@expo-google-fonts/roboto';
 import { ActivityIndicator, View } from 'react-native';
 
 export default function App() {
+
   const [fontsLoaded] = useFonts({
     Baloo2_400Regular,
     Baloo2_700Bold,
@@ -25,6 +27,12 @@ export default function App() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
+      <StatusBar
+        style="light"
+        backgroundColor='transparent'
+        translucent
+      />
+
       <Routes />
     </ThemeProvider>
   );

@@ -3,24 +3,31 @@ import { css, styled } from 'styled-components/native';
 export const Container = styled.View`
   flex: 1;
 
+  background-color: ${({ theme }) => theme.COLORS.GRAY_900};
+`;
+
+export const IntroContainer = styled.View`
+  padding-bottom: 137px;
+  padding: 0 32px 137px 32px;
+
   background-color: ${({ theme }) => theme.COLORS.GRAY_100};
-  
-  align-items: center;
-  justify-content: center;
+
+  position: relative;
 `;
 
-export const Text = styled.Text`
+export const Title = styled.Text`
   ${({ theme }) => css`
-    color: ${theme.COLORS.GRAY_800};
-    font-family: ${theme.FONT_FAMILY.ROBOTO.BOLD};
-    font-size: ${theme.FONT_SIZE.ROBOTO.MD}px;
-  `}
-`;
-
-export const Text2 = styled.Text`
-  ${({ theme }) => css`
-    color: ${theme.COLORS.GRAY_800};
+    color: ${theme.COLORS.WHITE};
     font-family: ${theme.FONT_FAMILY.BALOO_2.BOLD};
     font-size: ${theme.FONT_SIZE.BALOO_2.MD}px;
+
+    margin-top: 20px;
+    margin-bottom: 16px;
   `}
+`;
+
+export const IntroImage = styled.Image`
+  position: absolute;
+  right: 4px;
+  bottom: 54px;
 `;
