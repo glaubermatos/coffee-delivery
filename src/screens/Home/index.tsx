@@ -4,6 +4,7 @@ import { Container, IntroContainer, IntroImage, Title } from "./styles";
 
 import { SearchInput } from '@components/SearchInput';
 import { HomeHeader } from '@components/HomeHeader';
+import { CoffeeCard } from '@components/CoffeeCard';
 
 export function Home() {
     return (
@@ -21,6 +22,8 @@ export function Home() {
                     source={bgImage}
                 />
             </IntroContainer>
+
+            <CoffeeCard />
         </Container>
     )
 }   
