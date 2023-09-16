@@ -1,20 +1,23 @@
 import styled, { css } from "styled-components/native";
 
 export const Container = styled.View`
-    width: 166.4px;
+    width: 200px;
     border-radius: 4.8px 28.8px;
-    padding: 72px 12px 16px 12px;
+    padding: 0 12px 16px 12px;
 
+    
     background-color: ${({ theme }) => theme.COLORS.GRAY_800};
-`;
+    `;
 
 export const Content = styled.View`
     align-items: center;
-    gap: 12px;
+    margin-top: -10px;
 `;
 
 export const Info = styled.View`
     gap: 4px;
+    margin-top: 12px;
+    margin-bottom: 12px;
     padding-bottom: 4px;
 `;
 
@@ -56,4 +59,8 @@ export const Value = styled.Text`
         font-family: ${theme.FONT_FAMILY.BALOO_2.BOLD};
         color: ${theme.COLORS.YELLOW_DARK};
     `}
+`;
+
+export const Image = styled.Image`
+    margin-bottom: 20px;
 `;
