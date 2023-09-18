@@ -31,3 +31,16 @@ export const IntroImage = styled.Image`
   right: 4px;
   bottom: 54px;
 `;
+
+export const CoffeeFilterContainer = styled.View`
+  padding: 16px 32px;
+  gap: 12px;
+`;
+
+export const CoffeeFilterTitle = styled.Text`
+  ${({ theme }) => css`
+    color: ${theme.COLORS.GRAY_300};
+    font-family: ${theme.FONT_FAMILY.BALOO_2.BOLD};
+    font-size: ${theme.FONT_SIZE.BALOO_2.SM}px;
+  `}
+`;

@@ -30,7 +30,7 @@ export function CoffeeCard({size = "DEFAULT", ...rest}: Props) {
     }
 
     return (
-        <Container size={size} {...rest}>
+        <AnimatedTouchableOpacity size={size} {...rest}>
             <Content>
                 <Image 
                     source={irlandesImg}
@@ -63,6 +63,6 @@ export function CoffeeCard({size = "DEFAULT", ...rest}: Props) {
                     </Value>
                 </Price>
             </Content>
-        </Container>
+        </AnimatedTouchableOpacity>
     );
 }
