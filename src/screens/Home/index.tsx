@@ -4,12 +4,9 @@ import { Container, IntroContainer, IntroImage, Title } from "./styles";
 
 import { SearchInput } from '@components/SearchInput';
 import { HomeHeader } from '@components/HomeHeader';
-import { CoffeeCard } from '@components/CoffeeCard';
-import { useState } from 'react';
-import { FlatList } from 'react-native';
+import { HighlightList } from '@components/HighlightList';
 
 export function Home() {
-    const [coffees, setCoffees] = useState<string[]>(["Irlandês", "Café com leite", "Árabe"])
 
     return (
         <Container style={{}}>
@@ -27,23 +24,7 @@ export function Home() {
                 />
             </IntroContainer>
 
-            <FlatList 
-                style={{marginTop: -80}}
-                data={coffees}
-                keyExtractor={(item) => item}
-                renderItem={({item}) => (
-                    <CoffeeCard 
-                    />
-                )}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{
-                    paddingVertical: 30.5,
-                    paddingHorizontal: 32, 
-                    gap: 32,
-                    maxHeight: 323
-                }}
-            />
+            <HighlightList />
 
         </Container>
     )

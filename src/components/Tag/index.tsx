@@ -1,12 +1,14 @@
+import { CoffeeCardSizeProps } from "@components/CoffeeCard/styles";
 import { Container } from "./styles";
 
 type Props = {
     name: string;
+    size?: CoffeeCardSizeProps
 }
 
-export function Tag({ name }: Props) {
+export function Tag({ name, size = 'DEFAULT' }: Props) {
     return (
-        <Container>
+        <Container size={size}>
             {name}
         </Container>
     );
