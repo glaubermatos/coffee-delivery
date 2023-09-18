@@ -1,3 +1,4 @@
+import { Dimensions } from "react-native";
 import styled, { DefaultTheme, css } from "styled-components/native";
 
 export type CoffeeCardSizeProps = "DEFAULT" | "FOCUSED";
@@ -7,6 +8,8 @@ type Props = {
 }
 
 let SIZE: CoffeeCardSizeProps = 'DEFAULT'
+
+const {width} = Dimensions.get('window');
 
 const containerVariantSizeStyle = (size: CoffeeCardSizeProps) => {
     SIZE = size;
@@ -20,16 +23,15 @@ const containerVariantSizeStyle = (size: CoffeeCardSizeProps) => {
         FOCUSED: css`
             padding: 96px 16px 20px 16px;
             border-radius: 6px  36px;
-            width: 238px;
+            width: ${(width * 0.55)}px;
         `,
     }[size]
 }
 
 export const Container = styled.Pressable<Props>`
-    /* height: 270px; */
-
     /* box-shadow: 0px 1.6px 6.4px 0px rgba(0, 0, 0, 0.05); */
     background-color: ${({ theme }) => theme.COLORS.GRAY_800};
+    margin: 0 16px;
 
     position: relative;
 

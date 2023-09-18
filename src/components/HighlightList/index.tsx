@@ -1,60 +1,34 @@
-import { Container, Highlight } from "./styles";
+import { Container } from "./styles";
 import { useState } from "react";
 import { CoffeeCard } from "@components/CoffeeCard";
-import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
-import { CoffeeCardFocused } from "@components/CoffeeCardFocused";
 
-const AnimatedList = Animated.createAnimatedComponent(Highlight)
+import Carousel from 'react-native-snap-carousel'; 
+import { Dimensions } from "react-native";
+
+
+const SLIDER_WIDTH = Dimensions.get('window').width
+const ITEM_WIDTH = SLIDER_WIDTH * 0.55;
 
 export function HighlightList() {
     const [coffees, setCoffees] = useState<string[]>(["Irlandês", "Café com leite", "Árabe"])
 
     return (
         <Container>
-            <AnimatedList
-                data={coffees}
-                horizontal
-                // keyExtractor={(item) => item}
-                renderItem={({item, index}) => {
-
-                    if (index === 0) {
-                        return <CoffeeCard size="FOCUSED" />
-                    }
-
-                    return (
-                        <CoffeeCard />
-                    )
-                }}
-                scrollEventThrottle={16}
-                decelerationRate={0}
-                showsHorizontalScrollIndicator={false}
+            <Carousel
+              data={coffees}
+              renderItem={({item, index}) => <CoffeeCard size="FOCUSED" />}
+              sliderWidth={SLIDER_WIDTH}
+              itemWidth={ITEM_WIDTH}
+              useScrollView={true}
+              firstItem={0}
+              snapToOffsets={[...Array(coffees.length)].map((item, index) => index * (SLIDER_WIDTH*0.55 ) + (index-1) )}
+              snapToAlignment="start"
+              inactiveSlideOpacity={1}
+              inactiveSlideScale={0.7}
+              activeSlideAlignment="start"
+              activeSlideOffset={20}
+              contentContainerCustomStyle={{paddingLeft: 16, paddingTop: 38, paddingBottom: 32}}
             />
-
-            {/* <Highlight
-                data={coffees}
-                // keyExtractor={(item) => item}
-                renderItem={({item}) => (
-                    <CoffeeCard />
-                )}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-            /> */}
-
-            {/* <FlatList 
-                data={coffees}
-                keyExtractor={(item) => item}
-                renderItem={({item}) => (
-                    <CoffeeCard />
-                )}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{
-                    // paddingVertical: 30.5,
-                    // paddingHorizontal: 32, 
-                    gap: 32,
-                    maxHeight: 323
-                }}
-            /> */}
         </Container>
     );
 }
