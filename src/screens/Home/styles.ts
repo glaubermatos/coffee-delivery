@@ -1,3 +1,6 @@
+import { SectionListProps } from 'react-native';
+import { SectionListDataProp } from 'react-native-section-list-get-item-layout';
+import SectionList from 'react-native-tabs-section-list';
 import { css, styled } from 'styled-components/native';
 
 export const Container = styled.View`
@@ -44,3 +47,13 @@ export const CoffeeFilterTitle = styled.Text`
     font-size: ${theme.FONT_SIZE.BALOO_2.SM}px;
   `}
 `;
+
+export const SectionTitle = styled.Text`
+  ${({ theme }) => css`
+    color: ${theme.COLORS.GRAY_400};
+    font-family: ${theme.FONT_FAMILY.BALOO_2.BOLD};
+    font-size: ${theme.FONT_SIZE.BALOO_2.XS}px;
+  `}
+`;
+
+export const CoffeeSectionList = styled(SectionList)``;

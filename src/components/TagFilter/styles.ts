@@ -4,7 +4,7 @@ type Props = {
     isActive?: boolean
 }
 
-export const Container = styled.Pressable<Props>`
+export const Container = styled.TouchableOpacity<Props>`
     border-radius: 100px;
     padding: 6px 12px;
 
@@ -12,6 +12,8 @@ export const Container = styled.Pressable<Props>`
     
     justify-content: center;
     align-items: center;
+
+    margin-right: 8px;
 
     ${({theme, isActive}) => css`
             background-color: ${isActive ? theme.COLORS.PURPLE_DARK : theme.COLORS.WHITE};
