@@ -15,6 +15,8 @@ import Animated, { Easing, Extrapolate, interpolate, useAnimatedScrollHandler, u
 import { useTheme } from 'styled-components/native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 
+const CoffeeFilterContainerAnimated = Animated.createAnimatedComponent(CoffeeFilterContainer)
+
 export function Home() {
     const [tagSelected, setTagSelected] = useState('tradicionais')
     const [coffees, setCoffees] = useState([{title: 'tradicionais', data: [
@@ -55,11 +57,13 @@ export function Home() {
 
       const renderSectionTab = useCallback((props: SectionListData<any>) => {
         return (
-            <TagFilter 
-                name={props.title}
-                isActive={props.isActive}
-                onPress={() => onPressTitle(props.index)}
-            />
+            <GestureDetector gesture={introContainerPosition.value < 0 ? onPanUp : onPanDown}>
+                <TagFilter 
+                    name={props.title}
+                    isActive={props.isActive}
+                    onPress={() => onPressTitle(props.index)}
+                />
+            </GestureDetector>
         )
     }, [coffees])
 
@@ -73,26 +77,58 @@ export function Home() {
       )
     }, [coffees])
 
-    const headerAnimatedStyles = useAnimatedStyle(() => {
+    const headerHideAnimatedStyles = useAnimatedStyle(() => {
       return {
-        height: interpolate(introContainerPosition.value, [0, -220], [520, 0], Extrapolate.CLAMP),
-        transform: [{
-            translateY: interpolate(introContainerPosition.value, [0, -220], [0, -520], Extrapolate.CLAMP)
-        }],
-        opacity: interpolate(introContainerPosition.value, [0, -220], [1, 0], Extrapolate.CLAMP),
-        // opacity: interpolate(scrollY.value, [60, 90], [1, 0], Extrapolate.CLAMP)
+        marginTop: interpolate(introContainerPosition.value, [0, -130], [0, -532], Extrapolate.CLAMP),
+        // height: interpolate(introContainerPosition.value, [0, -220], [520, 0], Extrapolate.CLAMP),
+        // transform: [{
+        //     translateY: interpolate(introContainerPosition.value, [0, -220], [0, -520], Extrapolate.CLAMP)
+        // }],
+        opacity: interpolate(introContainerPosition.value, [0, -110], [1, 0], Extrapolate.CLAMP),
       }
     })
 
-    const onPan = Gesture
+    const tabHeaderAnimatedStyles = useAnimatedStyle(() => {
+      return {
+        borderBottomWidth: interpolate(introContainerPosition.value, [-0, -130], [0, 1], Extrapolate.CLAMP),
+      }
+    })
+    
+
+    const onPanUp = Gesture
+    .Pan()
+    .activateAfterLongPress(80)
+    .onUpdate((event) => {
+        console.log(event.translationY);
+        introContainerPosition.value = event.translationY
+    })
+    .onEnd((event) => {
+        // if (event.translationY < CAR_SKIP_QUESTION_AREA) {
+        // runOnJS(handleSkipConfirm)();
+        // }
+
+        // introContainerPosition.value = withTiming(0);
+
+        scrollY.value = event.translationY < -220 ? -220 : event.translationY;
+        // introContainerPosition.value = event.translationY;
+        console.log('final position scrollY: ', scrollY.value);
+    })
+
+    const onPanDown = Gesture
     .Pan()
     .activateAfterLongPress(90)
     .onUpdate((event) => {
-        console.log(event.translationY)
-        const moveToUp = event.translationY < 0;
+        console.log(event.translationY);
 
-        // if (moveToUp) {
-            introContainerPosition.value = event.translationY
+        const moveToUp = event.translationY < 0;
+        const maxValueToUp = scrollY.value >= -220;
+
+        const translateY = event.translationY;
+
+        // if (maxValueToUp) {
+            introContainerPosition.value = scrollY.value + (translateY);
+        // } else {
+        //     introContainerPosition.value = 0 - translateY;
         // }
     })
     .onEnd((event) => {
@@ -101,6 +137,10 @@ export function Home() {
         // }
 
         // introContainerPosition.value = withTiming(0);
+
+        scrollY.value = event.translationY < -220 ? -220 : event.translationY;
+        // introContainerPosition.value = event.translationY;
+        console.log('final position scrollY: ', scrollY.value);
     })
 
     const scrollHandler = useAnimatedScrollHandler({
@@ -112,34 +152,25 @@ export function Home() {
     return (
         <SafeAreaView style={{flex: 1}}>
             <HomeHeader />
-            <GestureDetector gesture={onPan}>
-
+            <GestureDetector gesture={onPanDown}>
                 <Container>
-                    {/* <Animated.ScrollView
-                        scrollEnabled={true}
-                        nestedScrollEnabled
-                        showsVerticalScrollIndicator={false}
-                        // contentContainerStyle={styles.question}
-                        // onScroll={scrollHandler}
-                        scrollEventThrottle={16}
-                    > */}
-                        <GestureDetector gesture={onPan}>
-                            <Animated.View style={headerAnimatedStyles}>
-                                <IntroContainer>
-                                    <Title>
-                                        Encontre o café perfeito para qualquer hora do dia
-                                    </Title>
+                    <GestureDetector gesture={onPanUp}>
+                        <Animated.View style={[headerHideAnimatedStyles]}>
+                            <IntroContainer>
+                                <Title>
+                                    Encontre o café perfeito para qualquer hora do dia
+                                </Title>
 
-                                    <SearchInput placeholder='Pesquisar' />
+                                <SearchInput placeholder='Pesquisar' />
 
-                                    <IntroImage 
-                                        source={bgImage}
-                                    />
-                                </IntroContainer>
+                                <IntroImage 
+                                    source={bgImage}
+                                />
+                            </IntroContainer>
 
-                                <HighlightList />
-                            </Animated.View>
-                        </GestureDetector>
+                            <HighlightList />
+                        </Animated.View>
+                    </GestureDetector>
 
                     {/* <IntroContainer>
                         <HomeHeader />
@@ -182,7 +213,7 @@ export function Home() {
                         />
                     </CoffeeFilterContainer> */}
                     
-                    <GestureDetector gesture={onPan}>
+                    <GestureDetector gesture={introContainerPosition.value < 0 ? onPanDown : onPanUp}>
                     <CoffeeFilterContainer>
                         <CoffeeFilterTitle>
                             Nossos cafés
@@ -207,8 +238,6 @@ export function Home() {
                         renderTab={(props) => renderSectionTab(props)}
                         // getItemLayout={getItemLayout}
                     />
-
-                    {/* </Animated.ScrollView> */}
                 </Container>
             </GestureDetector>
         </SafeAreaView>
