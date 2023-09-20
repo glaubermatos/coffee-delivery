@@ -4,19 +4,22 @@ import { CoffeeCard } from "@components/CoffeeCard";
 
 import Carousel from 'react-native-snap-carousel'; 
 import { Dimensions } from "react-native";
+import Animated, { SlideInRight } from "react-native-reanimated";
 
 
 const SLIDER_WIDTH = Dimensions.get('window').width
 const ITEM_WIDTH = SLIDER_WIDTH * 0.55;
 
+const ContainerAnimated = Animated.createAnimatedComponent(Container);
+
 export function HighlightList() {
     const [coffees, setCoffees] = useState<string[]>(["Irlandês", "Café com leite", "Árabe"])
 
     return (
-        <Container>
+        <ContainerAnimated> 
             <Carousel
               data={coffees}
-              renderItem={({item, index}) => <CoffeeCard size="FOCUSED" />}
+              renderItem={({item, index}) => <CoffeeCard index={index} size="FOCUSED" />}
               sliderWidth={SLIDER_WIDTH}
               itemWidth={ITEM_WIDTH}
               useScrollView={true}
@@ -29,6 +32,6 @@ export function HighlightList() {
               activeSlideOffset={20}
               contentContainerCustomStyle={{paddingLeft: 16, paddingTop: 38, paddingBottom: 32}}
             />
-        </Container>
+        </ContainerAnimated>
     );
 }

@@ -1,21 +1,21 @@
 import bgImage from '@assets/image.png'
-
 import { CoffeeFilterContainer, CoffeeFilterTitle, Container, IntroContainer, IntroImage, SectionTitle, Title } from "./styles";
 
 import { SearchInput } from '@components/SearchInput';
 import { HomeHeader } from '@components/HomeHeader';
 import { HighlightList } from '@components/HighlightList';
-import { SectionList as RNSectionList, SectionListData, SectionListProps, SectionListRenderItemInfo, View, Text, FlatList, SafeAreaView, ScrollView } from 'react-native';
+import { SectionList as RNSectionList, SectionListData, SectionListProps, SectionListRenderItemInfo, View, Text, FlatList, SafeAreaView, Platform, ScrollView, StatusBar } from 'react-native';
 import { TagFilter } from '@components/TagFilter';
 import { LegacyRef, MutableRefObject, useCallback, useRef, useState } from 'react';
 import { CoffeeItem } from '@components/CoffeeItem';
 import SectionList from 'react-native-tabs-section-list';
 
-import Animated, { Easing, Extrapolate, interpolate, useAnimatedScrollHandler, useAnimatedStyle, useSharedValue, withSequence, withTiming, runOnJS } from 'react-native-reanimated';
+import Animated, { Easing, Extrapolate, interpolate, useAnimatedScrollHandler, useAnimatedStyle, useSharedValue, withSequence, withTiming, runOnJS, SlideInRight, SlideInUp, SlideInDown, interpolateColor } from 'react-native-reanimated';
 import { useTheme } from 'styled-components/native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 
-const CoffeeFilterContainerAnimated = Animated.createAnimatedComponent(CoffeeFilterContainer)
+const CoffeeFilterContainerAnimated = Animated.createAnimatedComponent(CoffeeFilterContainer);
+const AnimatedStatusBar = Animated.createAnimatedComponent(StatusBar);
 
 export function Home() {
     const [tagSelected, setTagSelected] = useState('tradicionais')
@@ -32,10 +32,12 @@ export function Home() {
         {id: 8, name: 'Café com leite', description: 'lorem ipsum dolor'},
     ]}])
 
+    const [isDark, setIsDark] = useState(false)
+
+    const {COLORS} = useTheme();
     let listRef = useRef<any>();
     const scrollY = useSharedValue(0)
     const introContainerPosition = useSharedValue(0)
-
 
     const onPressTitle = useCallback((index: number) => {
         console.log("listRef", listRef)
@@ -77,23 +79,30 @@ export function Home() {
       )
     }, [coffees])
 
-    const headerHideAnimatedStyles = useAnimatedStyle(() => {
+    const introContainerAnimatedStyles = useAnimatedStyle(() => {
       return {
-        marginTop: interpolate(introContainerPosition.value, [0, -130], [0, -532], Extrapolate.CLAMP),
+        marginTop: interpolate(introContainerPosition.value, [0, -180], [0, -532], Extrapolate.CLAMP),
         // height: interpolate(introContainerPosition.value, [0, -220], [520, 0], Extrapolate.CLAMP),
         // transform: [{
         //     translateY: interpolate(introContainerPosition.value, [0, -220], [0, -520], Extrapolate.CLAMP)
         // }],
-        opacity: interpolate(introContainerPosition.value, [0, -110], [1, 0], Extrapolate.CLAMP),
+        opacity: interpolate(introContainerPosition.value, [0, -150], [1, 0], Extrapolate.CLAMP),
       }
-    })
+    })  
 
-    const tabHeaderAnimatedStyles = useAnimatedStyle(() => {
+    const headerAnimatedStyles = useAnimatedStyle(() => {
       return {
-        borderBottomWidth: interpolate(introContainerPosition.value, [-0, -130], [0, 1], Extrapolate.CLAMP),
+        backgroundColor: interpolateColor(introContainerPosition.value, [0, -180], [COLORS.GRAY_100, COLORS.GRAY_900]),
+        height: interpolate(introContainerPosition.value, [0, -180], [120, 96], Extrapolate.CLAMP),
+        // elevation: interpolate(introContainerPosition.value, [0, -180], [0, 4], Extrapolate.CLAMP)
       }
-    })
-    
+    }) 
+
+    // const statusBarAnimatedStyle = useAnimatedStyle(() => {
+    //   return {
+    //     style: interpolate(introContainerPosition.value, [0, -180], [0, 1], ['light', ], Extrapolate.CLAMP)
+    //   }
+    // })  
 
     const onPanUp = Gesture
     .Pan()
@@ -143,19 +152,23 @@ export function Home() {
         console.log('final position scrollY: ', scrollY.value);
     })
 
-    const scrollHandler = useAnimatedScrollHandler({
-      onScroll: (event) => {
-        scrollY.value = event.contentOffset.y;
-      }
-    })
-
     return (
         <SafeAreaView style={{flex: 1}}>
-            <HomeHeader />
+            <StatusBar
+                barStyle={'light-content'}
+                backgroundColor='transparent'
+                translucent
+            />
+
+            <HomeHeader style={headerAnimatedStyles} />
+            
             <GestureDetector gesture={onPanDown}>
                 <Container>
                     <GestureDetector gesture={onPanUp}>
-                        <Animated.View style={[headerHideAnimatedStyles]}>
+                        <Animated.View 
+                            entering={SlideInUp.delay(10).duration(600).easing(Easing.bezierFn(0, 0.79, 0.52, 0.98))} 
+                            style={[introContainerAnimatedStyles]}
+                        >
                             <IntroContainer>
                                 <Title>
                                     Encontre o café perfeito para qualquer hora do dia
@@ -212,29 +225,28 @@ export function Home() {
                             }}
                         />
                     </CoffeeFilterContainer> */}
-                    
-                    <GestureDetector gesture={introContainerPosition.value < 0 ? onPanDown : onPanUp}>
-                    <CoffeeFilterContainer>
-                        <CoffeeFilterTitle>
-                            Nossos cafés
-                        </CoffeeFilterTitle>
-                    </CoffeeFilterContainer>
 
+                    <GestureDetector gesture={introContainerPosition.value < 0 ? onPanDown : onPanUp}>
+                        <CoffeeFilterContainer>
+                            <CoffeeFilterTitle>
+                                Nossos cafés
+                            </CoffeeFilterTitle>
+                        </CoffeeFilterContainer>
                     </GestureDetector>
 
                     <SectionList
                         nestedScrollEnabled
-                        style={{ marginHorizontal: 32,  marginTop: 16}}
+                        style={{ paddingBottom: 8}}
                         stickySectionHeadersEnabled={false}
                         ref={listRef}
                         showsVerticalScrollIndicator={false}
                         sections={coffees}
                         extraData={coffees}
-                        tabBarStyle={{marginHorizontal: 32, marginBottom: 16}}
+                        tabBarStyle={{paddingHorizontal: 32, paddingBottom: 16, backgroundColor: COLORS.GRAY_900, borderBottomWidth: 1, borderBottomColor: COLORS.GRAY_900}}
                         renderItem={(props) => renderItem(props)}
                         keyExtractor={(_, index) => index.toString()}
                         renderSectionHeader={(props) => renderSectionHeader(props)}
-                        contentContainerStyle={{gap: 32, paddingBottom: 380}}
+                        contentContainerStyle={{gap: 32, paddingHorizontal: 32, paddingBottom: 380, backgroundColor: COLORS.GRAY_900}}
                         renderTab={(props) => renderSectionTab(props)}
                         // getItemLayout={getItemLayout}
                     />

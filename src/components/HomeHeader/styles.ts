@@ -1,14 +1,15 @@
 import styled, { css } from "styled-components/native";
 
 export const Container = styled.View`
-    padding: 32px 32px;
+    padding: 28px 32px;
+    height: 120px;
 
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
 
     background-color: ${({ theme }) => theme.COLORS.GRAY_100};
-    z-index: 1;
+    z-index: 10;
 `;
 
 export const Location = styled.View`

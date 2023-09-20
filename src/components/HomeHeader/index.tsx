@@ -3,8 +3,15 @@ import { City, Container, Location } from "./styles";
 import { useTheme } from "styled-components/native";
 import { IconButton } from "@components/IconButton";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import Animated, { AnimatedStyleProp, StyleProps } from "react-native-reanimated";
 
-export function HomeHeader() {
+const ContainerAnimated = Animated.createAnimatedComponent(Container);
+
+type Props = {
+    style: StyleProps
+}
+
+export function HomeHeader({style}: Props) {
     const { COLORS } = useTheme();
 
     const insets = useSafeAreaInsets();
@@ -12,7 +19,7 @@ export function HomeHeader() {
     const paddingTop = insets.top + 32;
 
     return (
-        <Container style={{paddingTop}}>
+        <ContainerAnimated style={[style, {paddingTop}]}>
             <Location>
                 <MapPin weight="fill" size={20} color={COLORS.PURPLE} />
 
@@ -22,6 +29,6 @@ export function HomeHeader() {
             </Location>
 
             <IconButton />
-        </Container>
+        </ContainerAnimated>
     );
 } 

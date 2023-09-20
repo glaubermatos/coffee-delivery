@@ -3,34 +3,23 @@ import { CoffeeCardSizeProps, Container, Content, Currency, Description, Image, 
 
 import irlandesImg from '@assets/irlandes.png'
 import { PressableProps, TouchableOpacityProps } from "react-native";
-import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
+import Animated, { Easing, SlideInRight, FadeInRight, SlideInUp, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 
-const AnimatedTouchableOpacity= Animated.createAnimatedComponent(Container)
+const AnimatedTouchableOpacity = Animated.createAnimatedComponent(Container)
 
 
 type Props = PressableProps & {
     size?: CoffeeCardSizeProps;
+    index: number;
 }
 
-export function CoffeeCard({size = "DEFAULT", ...rest}: Props) {
-    const scale = useSharedValue(1);
-
-    const animatedScaleStyle = useAnimatedStyle(() => {
-        return {
-            transform: [{ scale: scale.value}]
-        }
-    })
-
-    function onPressIn() {
-        scale.value = withTiming(1.3, { duration: 200 })
-    }
-
-    function onPressOut() {
-        scale.value = withTiming(1, { duration: 200 })
-    }
-
+export function CoffeeCard({size = "DEFAULT", index, ...rest}: Props) {
     return (
-        <AnimatedTouchableOpacity size={size} {...rest}>
+        <AnimatedTouchableOpacity 
+            entering={SlideInRight.delay(600 + index * 50).duration(800).damping(15)}
+            size={size} 
+            {...rest}
+        >
             <Content>
                 <Image 
                     source={irlandesImg}
