@@ -5,13 +5,18 @@ import { CoffeeFilterContainer, CoffeeFilterTitle, Container, IntroContainer, In
 import { SearchInput } from '@components/SearchInput';
 import { HomeHeader } from '@components/HomeHeader';
 import { HighlightList } from '@components/HighlightList';
-import { FlatList, SectionListData, SectionListProps, SectionListRenderItemInfo, View, Text } from 'react-native';
+import { SectionList as RNSectionList, SectionListData, SectionListProps, SectionListRenderItemInfo, View, Text, FlatList, SafeAreaView, ScrollView } from 'react-native';
 import { TagFilter } from '@components/TagFilter';
 import { LegacyRef, MutableRefObject, useCallback, useRef, useState } from 'react';
 import { CoffeeItem } from '@components/CoffeeItem';
 import SectionList from 'react-native-tabs-section-list';
 
+import Animated, { Easing, Extrapolate, interpolate, useAnimatedScrollHandler, useAnimatedStyle, useSharedValue, withSequence, withTiming, runOnJS } from 'react-native-reanimated';
+import { useTheme } from 'styled-components/native';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+
 export function Home() {
+    const [tagSelected, setTagSelected] = useState('tradicionais')
     const [coffees, setCoffees] = useState([{title: 'tradicionais', data: [
         {id: 1, name: 'Irlandês', description: 'lorem ipsum dolor'},
         {id: 2, name: 'Café com leite', description: 'lorem ipsum dolor'},
@@ -26,6 +31,9 @@ export function Home() {
     ]}])
 
     let listRef = useRef<any>();
+    const scrollY = useSharedValue(0)
+    const introContainerPosition = useSharedValue(0)
+
 
     const onPressTitle = useCallback((index: number) => {
         console.log("listRef", listRef)
@@ -65,75 +73,144 @@ export function Home() {
       )
     }, [coffees])
 
+    const headerAnimatedStyles = useAnimatedStyle(() => {
+      return {
+        height: interpolate(introContainerPosition.value, [0, -220], [520, 0], Extrapolate.CLAMP),
+        transform: [{
+            translateY: interpolate(introContainerPosition.value, [0, -220], [0, -520], Extrapolate.CLAMP)
+        }],
+        opacity: interpolate(introContainerPosition.value, [0, -220], [1, 0], Extrapolate.CLAMP),
+        // opacity: interpolate(scrollY.value, [60, 90], [1, 0], Extrapolate.CLAMP)
+      }
+    })
+
+    const onPan = Gesture
+    .Pan()
+    .activateAfterLongPress(90)
+    .onUpdate((event) => {
+        console.log(event.translationY)
+        const moveToUp = event.translationY < 0;
+
+        // if (moveToUp) {
+            introContainerPosition.value = event.translationY
+        // }
+    })
+    .onEnd((event) => {
+        // if (event.translationY < CAR_SKIP_QUESTION_AREA) {
+        // runOnJS(handleSkipConfirm)();
+        // }
+
+        // introContainerPosition.value = withTiming(0);
+    })
+
+    const scrollHandler = useAnimatedScrollHandler({
+      onScroll: (event) => {
+        scrollY.value = event.contentOffset.y;
+      }
+    })
+
     return (
-        <Container style={{}}>
-            <IntroContainer>
-                <HomeHeader />
+        <SafeAreaView style={{flex: 1}}>
+            <HomeHeader />
+            <GestureDetector gesture={onPan}>
 
-                <Title>
-                    Encontre o café perfeito para qualquer hora do dia
-                </Title>
+                <Container>
+                    {/* <Animated.ScrollView
+                        scrollEnabled={true}
+                        nestedScrollEnabled
+                        showsVerticalScrollIndicator={false}
+                        // contentContainerStyle={styles.question}
+                        // onScroll={scrollHandler}
+                        scrollEventThrottle={16}
+                    > */}
+                        <GestureDetector gesture={onPan}>
+                            <Animated.View style={headerAnimatedStyles}>
+                                <IntroContainer>
+                                    <Title>
+                                        Encontre o café perfeito para qualquer hora do dia
+                                    </Title>
 
-                <SearchInput placeholder='Pesquisar' />
+                                    <SearchInput placeholder='Pesquisar' />
 
-                <IntroImage 
-                    source={bgImage}
-                />
-            </IntroContainer>
+                                    <IntroImage 
+                                        source={bgImage}
+                                    />
+                                </IntroContainer>
 
-            <HighlightList />
+                                <HighlightList />
+                            </Animated.View>
+                        </GestureDetector>
 
-            {/* <CoffeeFilterContainer>
-                <CoffeeFilterTitle>
-                    Nossos cafés
-                </CoffeeFilterTitle>
+                    {/* <IntroContainer>
+                        <HomeHeader />
 
-                <FlatList 
-                    data={['tradicionais', 'doces', 'especiais']}
-                    keyExtractor={(item) => item}
-                    renderItem={({item, index}) => (
-                        <TagFilter 
-                            name={item}
-                            isActive={String(tagSelected).toLocaleUpperCase() === item.toLocaleUpperCase()}
-                            onPress={() => setTagSelected(item)}
+                        <Title>
+                            Encontre o café perfeito para qualquer hora do dia
+                        </Title>
+
+                        <SearchInput placeholder='Pesquisar' />
+
+                        <IntroImage 
+                            source={bgImage}
                         />
-                    )}
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    contentContainerStyle={{
-                        gap: 8
-                    }}
-                    style={{
-                        maxHeight: 27,
-                        minHeight: 27
-                    }}
-                />
-            </CoffeeFilterContainer> */}
+                    </IntroContainer>*/}
 
-            <CoffeeFilterContainer>
-                <CoffeeFilterTitle>
-                    Nossos cafés
-                </CoffeeFilterTitle>
-            </CoffeeFilterContainer>
+                    {/* <CoffeeFilterContainer>
+                        <CoffeeFilterTitle>
+                            Nossos cafés
+                        </CoffeeFilterTitle>
 
-            <SectionList
-                style={{marginHorizontal: 32, marginTop: 16}}
-                stickySectionHeadersEnabled={false}
-                ref={listRef}
-                showsVerticalScrollIndicator={false}
-                sections={coffees}
-                extraData={coffees}
-                renderTab={(props) => renderSectionTab(props)}
-                tabBarStyle={{marginHorizontal: 32, marginBottom: 16}}
-                renderItem={(props) => renderItem(props)}
-                keyExtractor={(_, index) => index.toString()}
-                renderSectionHeader={(props) => renderSectionHeader(props)}
-                contentContainerStyle={{gap: 32, paddingBottom: 60}}
-                // renderSectionFooter={() => <View style={{ height: 40 }} />}
-                // getItemLayout={getItemLayout}
-            />
+                        <FlatList 
+                            data={['tradicionais', 'doces', 'especiais']}
+                            keyExtractor={(item) => item}
+                            renderItem={({item, index}) => (
+                                <TagFilter 
+                                    name={item}
+                                    isActive={String(tagSelected).toLocaleUpperCase() === item.toLocaleUpperCase()}
+                                    onPress={() => setTagSelected(item)}
+                                />
+                            )}
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                            contentContainerStyle={{
+                                gap: 8
+                            }}
+                            style={{
+                                maxHeight: 27,
+                                minHeight: 27
+                            }}
+                        />
+                    </CoffeeFilterContainer> */}
+                    
+                    <GestureDetector gesture={onPan}>
+                    <CoffeeFilterContainer>
+                        <CoffeeFilterTitle>
+                            Nossos cafés
+                        </CoffeeFilterTitle>
+                    </CoffeeFilterContainer>
 
+                    </GestureDetector>
 
-        </Container>
+                    <SectionList
+                        nestedScrollEnabled
+                        style={{ marginHorizontal: 32,  marginTop: 16}}
+                        stickySectionHeadersEnabled={false}
+                        ref={listRef}
+                        showsVerticalScrollIndicator={false}
+                        sections={coffees}
+                        extraData={coffees}
+                        tabBarStyle={{marginHorizontal: 32, marginBottom: 16}}
+                        renderItem={(props) => renderItem(props)}
+                        keyExtractor={(_, index) => index.toString()}
+                        renderSectionHeader={(props) => renderSectionHeader(props)}
+                        contentContainerStyle={{gap: 32, paddingBottom: 380}}
+                        renderTab={(props) => renderSectionTab(props)}
+                        // getItemLayout={getItemLayout}
+                    />
+
+                    {/* </Animated.ScrollView> */}
+                </Container>
+            </GestureDetector>
+        </SafeAreaView>
     )
 }   

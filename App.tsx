@@ -7,6 +7,7 @@ import { Routes } from '@routes/index';
 import { useFonts, Baloo2_400Regular, Baloo2_700Bold } from '@expo-google-fonts/baloo-2';
 import { Roboto_400Regular, Roboto_700Bold } from '@expo-google-fonts/roboto';
 import { ActivityIndicator, View } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export default function App() {
 
@@ -26,14 +27,17 @@ export default function App() {
   }
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <StatusBar
-        style="light"
-        backgroundColor='transparent'
-        translucent
-      />
+    <GestureHandlerRootView style={{flex: 1}}>
+      <ThemeProvider theme={defaultTheme}>
+        <StatusBar
+          style="light"
+          backgroundColor='transparent'
+          translucent
+        />
 
-      <Routes />
-    </ThemeProvider>
+        <Routes />
+      </ThemeProvider>
+
+    </GestureHandlerRootView>
   );
 }
