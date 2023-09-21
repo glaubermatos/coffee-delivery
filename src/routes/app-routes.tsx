@@ -1,13 +1,14 @@
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { TransitionPresets, createStackNavigator } from '@react-navigation/stack';
 
 import { Home } from '@screens/Home';
 import { Product } from '@screens/Product';
 
-const { Navigator, Screen } = createNativeStackNavigator();
+const { Navigator, Screen } = createStackNavigator();
 
 export function AppRoutes() {
+
     return (
-        <Navigator screenOptions={{ headerShown: false }}>
+        <Navigator screenOptions={{ headerShown: false, ...TransitionPresets.SlideFromRightIOS, }}>
             <Screen 
                 name='home'
                 component={Home}
@@ -16,6 +17,7 @@ export function AppRoutes() {
             <Screen 
                 name='product'
                 component={Product}
+              
             />
         </Navigator>
     );

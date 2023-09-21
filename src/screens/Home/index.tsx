@@ -4,13 +4,13 @@ import { CoffeeFilterContainer, CoffeeFilterTitle, Container, IntroContainer, In
 import { SearchInput } from '@components/SearchInput';
 import { HomeHeader } from '@components/HomeHeader';
 import { HighlightList } from '@components/HighlightList';
-import { SectionList as RNSectionList, SectionListData, SectionListProps, SectionListRenderItemInfo, View, Text, FlatList, SafeAreaView, Platform, ScrollView, StatusBar } from 'react-native';
+import { SectionListData, SectionListRenderItemInfo, SafeAreaView, StatusBar } from 'react-native';
 import { TagFilter } from '@components/TagFilter';
-import { LegacyRef, MutableRefObject, useCallback, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { CoffeeItem } from '@components/CoffeeItem';
 import SectionList from 'react-native-tabs-section-list';
 
-import Animated, { Easing, Extrapolate, interpolate, useAnimatedScrollHandler, useAnimatedStyle, useSharedValue, withSequence, withTiming, runOnJS, SlideInRight, SlideInUp, SlideInDown, interpolateColor } from 'react-native-reanimated';
+import Animated, { Easing, Extrapolate, interpolate, useAnimatedStyle, useSharedValue, SlideInUp, interpolateColor } from 'react-native-reanimated';
 import { useTheme } from 'styled-components/native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 
@@ -18,7 +18,6 @@ const CoffeeFilterContainerAnimated = Animated.createAnimatedComponent(CoffeeFil
 const AnimatedStatusBar = Animated.createAnimatedComponent(StatusBar);
 
 export function Home() {
-    const [tagSelected, setTagSelected] = useState('tradicionais')
     const [coffees, setCoffees] = useState([{title: 'tradicionais', data: [
         {id: 1, name: 'Irlandês', description: 'lorem ipsum dolor'},
         {id: 2, name: 'Café com leite', description: 'lorem ipsum dolor'},
@@ -31,8 +30,6 @@ export function Home() {
     {title: 'especiais', data: [
         {id: 8, name: 'Café com leite', description: 'lorem ipsum dolor'},
     ]}])
-
-    const [isDark, setIsDark] = useState(false)
 
     const {COLORS} = useTheme();
     let listRef = useRef<any>();
@@ -82,10 +79,6 @@ export function Home() {
     const introContainerAnimatedStyles = useAnimatedStyle(() => {
       return {
         marginTop: interpolate(introContainerPosition.value, [0, -180], [0, -532], Extrapolate.CLAMP),
-        // height: interpolate(introContainerPosition.value, [0, -220], [520, 0], Extrapolate.CLAMP),
-        // transform: [{
-        //     translateY: interpolate(introContainerPosition.value, [0, -220], [0, -520], Extrapolate.CLAMP)
-        // }],
         opacity: interpolate(introContainerPosition.value, [0, -150], [1, 0], Extrapolate.CLAMP),
       }
     })  
@@ -94,15 +87,10 @@ export function Home() {
       return {
         backgroundColor: interpolateColor(introContainerPosition.value, [0, -180], [COLORS.GRAY_100, COLORS.GRAY_900]),
         height: interpolate(introContainerPosition.value, [0, -180], [120, 96], Extrapolate.CLAMP),
-        // elevation: interpolate(introContainerPosition.value, [0, -180], [0, 4], Extrapolate.CLAMP)
+        borderBottomWidth: interpolate(introContainerPosition.value, [0, -180], [0, 1], Extrapolate.CLAMP),
+        borderBottomColor: interpolateColor(introContainerPosition.value, [0, -180], ['transparent', COLORS.GRAY_800]),
       }
     }) 
-
-    // const statusBarAnimatedStyle = useAnimatedStyle(() => {
-    //   return {
-    //     style: interpolate(introContainerPosition.value, [0, -180], [0, 1], ['light', ], Extrapolate.CLAMP)
-    //   }
-    // })  
 
     const onPanUp = Gesture
     .Pan()
@@ -154,13 +142,8 @@ export function Home() {
 
     return (
         <SafeAreaView style={{flex: 1}}>
-            <StatusBar
-                barStyle={'light-content'}
-                backgroundColor='transparent'
-                translucent
-            />
 
-            <HomeHeader style={headerAnimatedStyles} />
+            <HomeHeader style={headerAnimatedStyles} introContainerPosition={introContainerPosition} /> 
             
             <GestureDetector gesture={onPanDown}>
                 <Container>
@@ -236,7 +219,7 @@ export function Home() {
 
                     <SectionList
                         nestedScrollEnabled
-                        style={{ paddingBottom: 8}}
+                        style={{ paddingBottom: 8, elevation: 10}}
                         stickySectionHeadersEnabled={false}
                         ref={listRef}
                         showsVerticalScrollIndicator={false}
