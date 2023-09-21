@@ -1,10 +1,13 @@
+import { TouchableOpacityProps } from "react-native";
 import { Container, Content, Currency, Description, Image, Info, Name, Price, Value } from "./styles";
 
 import irlandesImg from '@assets/irlandes.png'
 
-export function CoffeeItem() {
+type Props = TouchableOpacityProps & {};
+
+export function CoffeeItem({...rest}: Props) {
     return (
-        <Container>
+        <Container {...rest}>
             <Image
                 source={irlandesImg}
             />

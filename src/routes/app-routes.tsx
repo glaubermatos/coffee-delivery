@@ -1,14 +1,25 @@
-import { TransitionPresets, createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { Home } from '@screens/Home';
 import { Product } from '@screens/Product';
 
-const { Navigator, Screen } = createStackNavigator();
+const { Navigator, Screen } = createNativeStackNavigator();
 
 export function AppRoutes() {
 
     return (
-        <Navigator screenOptions={{ headerShown: false, ...TransitionPresets.SlideFromRightIOS, }}>
+        <Navigator screenOptions={{ 
+            headerShown: false,
+            animation:'slide_from_right',
+            animationDuration: 250,
+
+            statusBarStyle: 'light',
+            statusBarTranslucent: true,
+            statusBarColor: 'transparent'
+
+            // cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+            // ...TransitionPresets.SlideFromRightIOS, 
+        }}>
             <Screen 
                 name='home'
                 component={Home}
@@ -17,7 +28,11 @@ export function AppRoutes() {
             <Screen 
                 name='product'
                 component={Product}
-              
+                options={{
+                    statusBarStyle: 'light',
+                    statusBarTranslucent: true,
+                    statusBarColor: 'transparent'
+                }}
             />
         </Navigator>
     );

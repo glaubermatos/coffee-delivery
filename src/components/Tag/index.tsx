@@ -1,14 +1,18 @@
 import { CoffeeCardSizeProps } from "@components/CoffeeCard/styles";
-import { Container } from "./styles";
+import { Container, TagColorStyleProps } from "./styles";
 
 type Props = {
     name: string;
-    size?: CoffeeCardSizeProps
+    size?: CoffeeCardSizeProps;
+    color?: TagColorStyleProps;
 }
 
-export function Tag({ name, size = 'DEFAULT' }: Props) {
+export function Tag({ name, size = 'DEFAULT', color = 'primary' }: Props) {
     return (
-        <Container size={size}>
+        <Container 
+            size={size} 
+            color={color}
+        >
             {name}
         </Container>
     );

@@ -10,12 +10,17 @@ import { useCallback, useRef, useState } from 'react';
 import { CoffeeItem } from '@components/CoffeeItem';
 import SectionList from 'react-native-tabs-section-list';
 
-import Animated, { Easing, Extrapolate, interpolate, useAnimatedStyle, useSharedValue, SlideInUp, interpolateColor } from 'react-native-reanimated';
+import Animated, { Easing, Extrapolate, interpolate, useAnimatedStyle, useSharedValue, SlideInUp, interpolateColor, withSpring } from 'react-native-reanimated';
 import { useTheme } from 'styled-components/native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
 
 const CoffeeFilterContainerAnimated = Animated.createAnimatedComponent(CoffeeFilterContainer);
 const AnimatedStatusBar = Animated.createAnimatedComponent(StatusBar);
+
+import { SharedTransition } from 'react-native-reanimated';
+import { IconButton } from '@components/IconButton';
+import { ShoppingCart } from 'phosphor-react-native';
 
 export function Home() {
     const [coffees, setCoffees] = useState([{title: 'tradicionais', data: [
@@ -49,7 +54,7 @@ export function Home() {
 
     const renderItem = useCallback(({ item, index }: SectionListRenderItemInfo<any, any>) => {
         return (
-            <CoffeeItem />
+            <CoffeeItem onPress={() => handleNavigateToProduct(1)} />
         )
     }, [coffees])
       
@@ -139,11 +144,20 @@ export function Home() {
         // introContainerPosition.value = event.translationY;
         console.log('final position scrollY: ', scrollY.value);
     })
+    const navigation = useNavigation();
+
+    function handleNavigateToProduct(productId: number) {
+        navigation.navigate('product')
+    }
 
     return (
         <SafeAreaView style={{flex: 1}}>
 
-            <HomeHeader style={headerAnimatedStyles} introContainerPosition={introContainerPosition} /> 
+            <HomeHeader
+                sharedTransitionTag="headerHeightAnimateTag"
+                style={headerAnimatedStyles} 
+                introContainerPosition={introContainerPosition} 
+            /> 
             
             <GestureDetector gesture={onPanDown}>
                 <Container>

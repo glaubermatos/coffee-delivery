@@ -4,7 +4,7 @@ import styled, { DefaultTheme, css } from "styled-components/native";
 export type TagColorStyleProps = "primary" | "secondary";
 
 type Props = {
-    color?: TagColorStyleProps;
+    color: TagColorStyleProps;
     size: CoffeeCardSizeProps;
 }
 
@@ -24,13 +24,13 @@ const containerVariantSizeStyle = (size: CoffeeCardSizeProps, theme: DefaultThem
 }
 
 export const Container = styled.Text<Props>`
-    ${({ theme, color = 'primary'}) => css`
-        background-color: ${theme.COLORS.PURPLE_LIGHT};
+    ${({ theme, color}) => css`
+        background-color: ${color === 'primary' ? theme.COLORS.PURPLE_LIGHT : theme.COLORS.GRAY_200};
 
         text-transform: uppercase;
 
         font-family: ${theme.FONT_FAMILY.ROBOTO.BOLD};
-        color: ${theme.COLORS.PURPLE};
+        color: ${color === 'primary' ? theme.COLORS.PURPLE : theme.COLORS.WHITE};
     `}
 
     ${({size, theme}) => containerVariantSizeStyle(size, theme)};

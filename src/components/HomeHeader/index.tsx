@@ -1,19 +1,22 @@
-import { MapPin } from "phosphor-react-native";
+import { ArrowLeft, ArrowLineLeft, ArrowsClockwise, MapPin, ShoppingCart } from "phosphor-react-native";
 import { City, Container, Location } from "./styles";
 import { useTheme } from "styled-components/native";
 import { IconButton } from "@components/IconButton";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import Animated, { SharedValue, StyleProps, interpolate, interpolateColor, useAnimatedStyle } from "react-native-reanimated";
+import Animated, { AnimateProps, FadeInRight, FadeOutUp, SharedValue, SlideInRight, SlideInUp, SlideOutRight, StyleProps, interpolate, interpolateColor, useAnimatedStyle } from "react-native-reanimated";
+import { TouchableOpacity, ViewProps } from "react-native";
+import { ReactNode } from "react";
 
 const ContainerAnimated = Animated.createAnimatedComponent(Container);
 const CityTextAnimated = Animated.createAnimatedComponent(City);
 
-type Props = {
-    style: StyleProps;
-    introContainerPosition: SharedValue<number>
+type Props = Animated.AnimateProps<ViewProps> & {
+    style?: StyleProps;
+    introContainerPosition?: SharedValue<number>
+    shownBackButton?: boolean;
 }
 
-export function HomeHeader({style, introContainerPosition}: Props) {
+export function HomeHeader({style, introContainerPosition = undefined, shownBackButton = false}: Props) {
     const { COLORS } = useTheme();
 
     const insets = useSafeAreaInsets();
@@ -22,21 +25,49 @@ export function HomeHeader({style, introContainerPosition}: Props) {
 
     const cityTextAnimatedStyles = useAnimatedStyle(() => {
       return {
-        color: interpolateColor(introContainerPosition.value, [0, -180], [COLORS.GRAY_900, COLORS.GRAY_200]),
+        color: introContainerPosition && interpolateColor(introContainerPosition.value, [0, -180], [COLORS.GRAY_900, COLORS.GRAY_200]),
+      }
+    })
+
+    const cartIconAnimatedStyles = useAnimatedStyle(() => {
+      return {
+        color: shownBackButton ? COLORS.WHITE : COLORS.YELLOW_DARK,
       }
     })
 
     return (
-        <ContainerAnimated style={[style, {paddingTop}]}>
-            <Location>
-                <MapPin weight="fill" size={20} color={COLORS.PURPLE} />
+        <ContainerAnimated 
+            style={[style, {paddingTop}]}
+            entering={FadeInRight.duration(400)}
+            exiting={FadeOutUp.duration(400)}
+        >
+            {
+                shownBackButton ? (
+                        <Animated.View 
+                            entering={SlideInRight.duration(400)}
+                            // exiting={FadeOutUp.duration(400)}
+                        >
+                            <IconButton icon={ArrowLeft} size={24} color={COLORS.WHITE} weight="regular"  />
+                        </Animated.View>
+                    ) : (
+                        <Location>
+                            <MapPin weight="fill" size={20} color={COLORS.PURPLE} />
+            
+                            <CityTextAnimated style={cityTextAnimatedStyles}>
+                                Santa Inês, BA
+                            </CityTextAnimated>
+                        </Location>
+                    )
+            }
 
-                <CityTextAnimated style={cityTextAnimatedStyles}>
-                    Santa Inês, BA
-                </CityTextAnimated>
-            </Location>
+            <IconButton
+                style={cartIconAnimatedStyles}
+                sharedTransitionTag="headerHeightAnimateTag" 
+                icon={ShoppingCart} 
+                size={20} 
+                color={shownBackButton ? COLORS.WHITE : COLORS.YELLOW_DARK} 
+            />
 
-            <IconButton />
         </ContainerAnimated>
     );
 } 
