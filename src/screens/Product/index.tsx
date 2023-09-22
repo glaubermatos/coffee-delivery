@@ -1,22 +1,30 @@
 import { HomeHeader } from "@components/HomeHeader";
-import { AddToCartContainer, Container, Content, Currency, Description, Footer, ImageContainer, Info, Main, Name, OptionsListContainer, Price, ProductImage, Selection, SelectionTitle, TitleContainer, Value } from "./styles";
-import Animated, { SharedTransition, SlideInRight, withSpring } from 'react-native-reanimated';
+import { AddToCartContainer, Container, Content, Currency, Description, ImageContainer, Info, Main, Name, OptionsListContainer, Price, ProductImage, Selection, SelectionTitle, TitleContainer, Value } from "./styles";
+import Animated, { Easing, FadeInUp, FadeOut, FadeOutDown, SharedTransition, SlideInRight, SlideInUp, SlideOutDown, withSpring } from 'react-native-reanimated';
 import { IconButton } from "@components/IconButton";
 import { ShoppingCart } from "phosphor-react-native";
 import { useTheme } from "styled-components/native";
 import { Tag } from "@components/Tag";
-import { View } from "react-native";
+import { Text, View } from "react-native";
 
 import irlandesImg from '@assets/coffee.png'
 import SmokeImg from '@assets/smoke_4.svg'
 import { Option } from "@components/Option";
 import { Button } from "@components/Button";
 import { Counter } from "@components/Counter";
+import { Footer } from "@components/Footer";
+import { useState } from "react";
+import { MessageItemAddedToCart } from "@components/MessageItemAddedToCart";
 
 const AnimatedContainer = Animated.createAnimatedComponent(Container)
 
 export function Product() {
     const { COLORS } = useTheme();
+    const [hasBeenAddedToCart, setHasBeenAddedToCart] = useState(false);
+
+    function handleAddToCart() {
+        setHasBeenAddedToCart(true)
+    }
 
     return (
         <AnimatedContainer>
@@ -57,23 +65,33 @@ export function Product() {
             </ImageContainer>
 
             <Footer>
-                <Selection>
-                    <SelectionTitle>
-                        Selecione o tamanho:
-                    </SelectionTitle>
+                {
+                    hasBeenAddedToCart ? (
+                        <MessageItemAddedToCart />
+                    ) : (
+                        <Animated.View style={{gap: 20}} exiting={FadeOut.duration(100).easing(Easing.out(Easing.back()))}>
+                            <Selection>
+                                <SelectionTitle>
+                                    Selecione o tamanho:
+                                </SelectionTitle>
 
-                    <OptionsListContainer>
-                        <Option name="114ml"/>
-                        <Option name="140ml"/>
-                        <Option name="227ml"/>
-                    </OptionsListContainer>
-                </Selection>
+                                <OptionsListContainer>
+                                    <Option name="114ml"/>
+                                    <Option name="140ml"/>
+                                    <Option name="227ml"/>
+                                </OptionsListContainer>
+                            </Selection>
 
-                <AddToCartContainer>
-                    <Counter showBorders={false} />
+                            <AddToCartContainer>
+                                <Counter showBorders={false} />
 
-                    <Button style={{flex: 1}} name="Adicionar" />
-                </AddToCartContainer>
+                                <Button style={{flex: 1}} name="Adicionar" onPress={handleAddToCart} />
+                            </AddToCartContainer>
+                        </Animated.View>
+                    )
+                }
+
+                
             </Footer>
         </AnimatedContainer>
     )

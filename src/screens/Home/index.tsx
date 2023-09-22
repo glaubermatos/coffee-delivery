@@ -10,7 +10,7 @@ import { useCallback, useRef, useState } from 'react';
 import { CoffeeItem } from '@components/CoffeeItem';
 import SectionList from 'react-native-tabs-section-list';
 
-import Animated, { Easing, Extrapolate, interpolate, useAnimatedStyle, useSharedValue, SlideInUp, interpolateColor, withSpring, runOnJS } from 'react-native-reanimated';
+import Animated, { Easing, Extrapolate, interpolate, useAnimatedStyle, useSharedValue, SlideInUp, interpolateColor, withSpring, runOnJS, withTiming } from 'react-native-reanimated';
 import { useTheme } from 'styled-components/native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
@@ -87,7 +87,7 @@ export function Home() {
     const introContainerAnimatedStyles = useAnimatedStyle(() => {
       return {
         marginTop: interpolate(introContainerPosition.value, [0, -180], [0, -532], Extrapolate.CLAMP),
-        opacity: interpolate(introContainerPosition.value, [0, -150], [1, 0], Extrapolate.CLAMP),
+        opacity: interpolate(introContainerPosition.value, [-10, -150], [1, 0], Extrapolate.CLAMP),
       }
     })  
 
@@ -106,23 +106,23 @@ export function Home() {
     .onUpdate((event) => {
         console.log(event.translationY);
 
-        if (event.translationY < 0 && scrollY.value < 0) {
+        if (event.translationY < 0) {
             introContainerPosition.value = event.translationY
         } else {
             introContainerPosition.value = scrollY.value + (event.translationY);
         }
     })
     .onEnd((event) => {
-        // if (event.translationY < CAR_SKIP_QUESTION_AREA) {
-        // runOnJS(handleSkipConfirm)();
-        // }
+        if (event.translationY < -20) {
+            introContainerPosition.value = withTiming(-220, {duration: 600, easing: Easing.inOut(Easing.quad)});
+        }
 
         // introContainerPosition.value = withTiming(0);
 
 
         const scrollIsUp = event.translationY <= -220
 
-        scrollY.value = event.translationY < -220 ? -220 : event.translationY;
+        scrollY.value = event.translationY <= -220 ? -220 : event.translationY;
         // introContainerPosition.value = event.translationY;
 
 

@@ -89,11 +89,6 @@ export const ProductImage = styled.Image`
   z-index: 1;
 `;
 
-export const Footer = styled.View`
-  padding: 40px 32px 32px 32px;
-  gap: 20px;
-`;
-
 export const Selection = styled.View`
   gap: 8px;
 `;
