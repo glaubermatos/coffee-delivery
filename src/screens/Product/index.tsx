@@ -1,5 +1,5 @@
 import { HomeHeader } from "@components/HomeHeader";
-import { AddToCartContainer, Container, Content, Currency, Description, Footer, ImageContainer, Info, Main, Name, OptionsListContainer, Price, ProductImage, Selection, SelectionTitle, SmokeImage, Text, TitleContainer, Value } from "./styles";
+import { AddToCartContainer, Container, Content, Currency, Description, Footer, ImageContainer, Info, Main, Name, OptionsListContainer, Price, ProductImage, Selection, SelectionTitle, TitleContainer, Value } from "./styles";
 import Animated, { SharedTransition, SlideInRight, withSpring } from 'react-native-reanimated';
 import { IconButton } from "@components/IconButton";
 import { ShoppingCart } from "phosphor-react-native";
@@ -11,6 +11,7 @@ import irlandesImg from '@assets/coffee.png'
 import SmokeImg from '@assets/smoke_4.svg'
 import { Option } from "@components/Option";
 import { Button } from "@components/Button";
+import { Counter } from "@components/Counter";
 
 const AnimatedContainer = Animated.createAnimatedComponent(Container)
 
@@ -69,7 +70,9 @@ export function Product() {
                 </Selection>
 
                 <AddToCartContainer>
-                    <Button name="Adicionar" />
+                    <Counter showBorders={false} />
+
+                    <Button style={{flex: 1}} name="Adicionar" />
                 </AddToCartContainer>
             </Footer>
         </AnimatedContainer>

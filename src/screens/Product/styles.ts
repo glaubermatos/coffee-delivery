@@ -6,9 +6,11 @@ export const Container = styled.View`
 `;
 
 export const Content = styled.View`
+  flex: 1;
   background-color: ${({ theme }) => theme.COLORS.GRAY_100};
 
   padding-bottom: 328px;
+
 `;
 
 export const Text = styled.Text`
@@ -82,18 +84,14 @@ export const ImageContainer = styled.View`
   position: relative;
 `;
 
-export const SmokeImage = styled.Image`
-`;
-
 export const ProductImage = styled.Image`
   margin-bottom: -40px;
   z-index: 1;
 `;
 
 export const Footer = styled.View`
-  padding: 24px 32px 32px 32px;
+  padding: 40px 32px 32px 32px;
   gap: 20px;
-  flex: 1;
 `;
 
 export const Selection = styled.View`
@@ -116,5 +114,9 @@ export const OptionsListContainer = styled.View`
 export const AddToCartContainer = styled.View`
   border-radius: 6px;
   padding: 8px;
+
+  flex-direction: row;
+  gap: 16px;
+
   background-color: ${({ theme }) => theme.COLORS.GRAY_700};
 `;

@@ -3,7 +3,7 @@ import { City, Container, Location } from "./styles";
 import { useTheme } from "styled-components/native";
 import { IconButton } from "@components/IconButton";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import Animated, { AnimateProps, FadeInRight, FadeOutUp, SharedValue, SlideInRight, SlideInUp, SlideOutRight, StyleProps, interpolate, interpolateColor, useAnimatedStyle } from "react-native-reanimated";
+import Animated, { AnimateProps, FadeInRight, FadeOutUp, SharedValue, SlideInLeft, SlideInRight, SlideInUp, SlideOutRight, StyleProps, interpolate, interpolateColor, useAnimatedStyle } from "react-native-reanimated";
 import { TouchableOpacity, ViewProps } from "react-native";
 import { ReactNode } from "react";
 
@@ -44,8 +44,8 @@ export function HomeHeader({style, introContainerPosition = undefined, shownBack
             {
                 shownBackButton ? (
                         <Animated.View 
-                            entering={SlideInRight.duration(400)}
-                            // exiting={FadeOutUp.duration(400)}
+                            entering={SlideInLeft.duration(400).delay(250)}
+                            exiting={SlideOutRight.duration(400)}
                         >
                             <IconButton icon={ArrowLeft} size={24} color={COLORS.WHITE} weight="regular"  />
                         </Animated.View>

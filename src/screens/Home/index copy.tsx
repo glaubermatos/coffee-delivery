@@ -63,8 +63,7 @@ export function Home() {
 
       const renderSectionTab = useCallback((props: SectionListData<any>) => {
         return (
-            <GestureDetector gesture={onPanUp}>
-            {/* // <GestureDetector gesture={introContainerPosition.value < 0 ? onPanUp : onPanDown}> */}
+            <GestureDetector gesture={introContainerPosition.value < 0 ? onPanUp : onPanDown}>
                 <TagFilter 
                     name={props.title}
                     isActive={props.isActive}
@@ -105,12 +104,7 @@ export function Home() {
     .activateAfterLongPress(80)
     .onUpdate((event) => {
         console.log(event.translationY);
-
-        if (event.translationY < 0 && scrollY.value < 0) {
-            introContainerPosition.value = event.translationY
-        } else {
-            introContainerPosition.value = scrollY.value + (event.translationY);
-        }
+        introContainerPosition.value = event.translationY
     })
     .onEnd((event) => {
         // if (event.translationY < CAR_SKIP_QUESTION_AREA) {
@@ -127,48 +121,47 @@ export function Home() {
 
 
         // if (scrollIsUp) {
-            // runOnJS(SetScrollIsUp)(true);
+            runOnJS(SetScrollIsUp)(true);
         // }
 
         console.log('final position scrollY: ', scrollY.value);
     })
 
-    // const onPanDown = Gesture
-    // .Pan()
-    // .activateAfterLongPress(90)
-    // .onUpdate((event) => {
-    //     console.log(event.translationY);
+    const onPanDown = Gesture
+    .Pan()
+    .activateAfterLongPress(90)
+    .onUpdate((event) => {
+        console.log(event.translationY);
 
-    //     const moveToUp = event.translationY < 0;
-    //     const maxValueToUp = scrollY.value >= -220;
+        const moveToUp = event.translationY < 0;
+        const maxValueToUp = scrollY.value >= -220;
 
-    //     const translateY = event.translationY;
+        const translateY = event.translationY;
 
-    //     // if (maxValueToUp) {
-    //         introContainerPosition.value = scrollY.value + (translateY);
-    //     // } else {
-    //     //     introContainerPosition.value = 0 - translateY;
-    //     // }
-    // })
-    // .onEnd((event) => {
-    //     // if (event.translationY < CAR_SKIP_QUESTION_AREA) {
-    //     // runOnJS(handleSkipConfirm)();
-    //     // }
+        // if (maxValueToUp) {
+            introContainerPosition.value = scrollY.value + (translateY);
+        // } else {
+        //     introContainerPosition.value = 0 - translateY;
+        // }
+    })
+    .onEnd((event) => {
+        // if (event.translationY < CAR_SKIP_QUESTION_AREA) {
+        // runOnJS(handleSkipConfirm)();
+        // }
 
-    //     // introContainerPosition.value = withTiming(0);
+        // introContainerPosition.value = withTiming(0);
 
-    //     const scrollIsUp = event.translationY <= -220
+        const scrollIsUp = event.translationY <= -220
 
-    //     scrollY.value = event.translationY <= -220 ? -220 : event.translationY;
-    //     // introContainerPosition.value = event.translationY;
+        scrollY.value = event.translationY <= -220 ? -220 : event.translationY;
+        // introContainerPosition.value = event.translationY;
 
-    //     // if (scrollIsUp) {
-    //         runOnJS(SetScrollIsUp)(false);
-    //     // }
+        // if (scrollIsUp) {
+            runOnJS(SetScrollIsUp)(false);
+        // }
 
-    //     console.log('final position scrollY: ', scrollY.value);
-    // })
-
+        console.log('final position scrollY: ', scrollY.value);
+    })
     const navigation = useNavigation();
 
     function handleNavigateToProduct(productId: number) {
@@ -249,32 +242,32 @@ export function Home() {
                     </CoffeeFilterContainer> */}
                     {/* <GestureDetector gesture={onPanUp}> */}
 
-                    <GestureDetector gesture={onPanUp}>
-                        <View style={{flex: 1}}> 
-                            <CoffeeFilterContainer>
-                                <CoffeeFilterTitle>
-                                    Nossos cafés
-                                </CoffeeFilterTitle>
-                            </CoffeeFilterContainer>
+                    <GestureDetector gesture={scrollIsUp ? onPanDown : onPanUp}>
+                    <View style={{flex: 1}}>
+                        <CoffeeFilterContainer>
+                            <CoffeeFilterTitle>
+                                Nossos cafés
+                            </CoffeeFilterTitle>
+                        </CoffeeFilterContainer>
 
-                        
-                            <SectionList
-                                nestedScrollEnabled
-                                style={{ paddingBottom: 8, elevation: 10}}
-                                stickySectionHeadersEnabled={false}
-                                ref={listRef}
-                                showsVerticalScrollIndicator={false}
-                                sections={coffees}
-                                extraData={coffees}
-                                tabBarStyle={{paddingHorizontal: 32, paddingBottom: 16, backgroundColor: COLORS.GRAY_900, borderBottomWidth: 1, borderBottomColor: COLORS.GRAY_900}}
-                                renderItem={(props) => renderItem(props)}
-                                keyExtractor={(_, index) => index.toString()}
-                                renderSectionHeader={(props) => renderSectionHeader(props)}
-                                contentContainerStyle={{gap: 32, paddingHorizontal: 32, paddingBottom: 380, backgroundColor: COLORS.GRAY_900}}
-                                renderTab={(props) => renderSectionTab(props)}
-                                // getItemLayout={getItemLayout}
-                            />
-                        </View>
+                    
+                    <SectionList
+                        nestedScrollEnabled
+                        style={{ paddingBottom: 8, elevation: 10}}
+                        stickySectionHeadersEnabled={false}
+                        ref={listRef}
+                        showsVerticalScrollIndicator={false}
+                        sections={coffees}
+                        extraData={coffees}
+                        tabBarStyle={{paddingHorizontal: 32, paddingBottom: 16, backgroundColor: COLORS.GRAY_900, borderBottomWidth: 1, borderBottomColor: COLORS.GRAY_900}}
+                        renderItem={(props) => renderItem(props)}
+                        keyExtractor={(_, index) => index.toString()}
+                        renderSectionHeader={(props) => renderSectionHeader(props)}
+                        contentContainerStyle={{gap: 32, paddingHorizontal: 32, paddingBottom: 380, backgroundColor: COLORS.GRAY_900}}
+                        renderTab={(props) => renderSectionTab(props)}
+                        // getItemLayout={getItemLayout}
+                    />
+                    </View>
                     </GestureDetector>
                 </Container>
             {/* </GestureDetector> */}

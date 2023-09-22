@@ -14,7 +14,7 @@ const ITEM_WIDTH = SLIDER_WIDTH * 0.55;
 const ContainerAnimated = Animated.createAnimatedComponent(Container);
 
 export function HighlightList() {
-    const [coffees, setCoffees] = useState<string[]>(["Irlandês", "Café com leite", "Árabe"]);
+    const [coffees, setCoffees] = useState<string[]>(["Irlandês", "Café com leite", "Árabe", "Capuccino", "Expresso"]);
     const navigation = useNavigation();
 
     function handleNavigateToProduct(productId: number) {
