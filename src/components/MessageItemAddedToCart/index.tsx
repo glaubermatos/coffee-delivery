@@ -3,6 +3,7 @@ import { CartIconContainer, Container, Content, Highlight, Label, Message, ShowC
 import Animated, { Easing, FadeInUp } from "react-native-reanimated";
 import { ArrowRight, ShoppingCart } from "phosphor-react-native";
 import { useTheme } from "styled-components/native";
+import { Badge } from "@components/Badge";
 
 const AnimatedContainer = Animated.createAnimatedComponent(Container)
 
@@ -16,6 +17,7 @@ export const MessageItemAddedToCart: React.FC = () => {
             <Content>
                 <CartIconContainer>
                     <ShoppingCart size={20} color={COLORS.WHITE} weight="fill" />
+                    <Badge value={1} />
                 </CartIconContainer>
 
                 <Message>

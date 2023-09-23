@@ -6,6 +6,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Animated, { AnimateProps, FadeInRight, FadeOutUp, SharedValue, SlideInLeft, SlideInRight, SlideInUp, SlideOutRight, StyleProps, interpolate, interpolateColor, useAnimatedStyle } from "react-native-reanimated";
 import { TouchableOpacity, ViewProps } from "react-native";
 import { ReactNode } from "react";
+import { Badge } from "@components/Badge";
 
 const ContainerAnimated = Animated.createAnimatedComponent(Container);
 const CityTextAnimated = Animated.createAnimatedComponent(City);
@@ -66,7 +67,9 @@ export function HomeHeader({style, introContainerPosition = undefined, shownBack
                 icon={ShoppingCart} 
                 size={20} 
                 color={shownBackButton ? COLORS.WHITE : COLORS.YELLOW_DARK} 
-            />
+            >
+                <Badge value={3} />
+            </IconButton>
 
         </ContainerAnimated>
     );

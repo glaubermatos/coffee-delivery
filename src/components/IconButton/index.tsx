@@ -3,6 +3,7 @@ import { Container } from "./styles";
 import { IconProps, ShoppingCart, Icon, IconWeight  } from "phosphor-react-native";
 import { DefaultTheme, useTheme } from "styled-components/native";
 import Animated, { StyleProps } from "react-native-reanimated";
+import { ReactNode } from "react";
 
 const AnimatedContainer = Animated.createAnimatedComponent(Container);
 
@@ -14,14 +15,16 @@ type Props = Animated.AnimateProps<StyleProps> & {
     weight?: IconWeight;
     size: number;
     // color?: string;
+    children?: ReactNode;
 }
 
-export function IconButton({icon: Icon, size = 20, weight = 'fill', color, ...rest}: Props) {
+export const IconButton: React.FC<Props> = ({icon: Icon, size = 20, weight = 'fill', color, children, ...rest}) => {
     return (
         <AnimatedContainer
             activeOpacity={0.7}
             {...rest}
         >
+            {children}
             <Icon weight={weight} size={size} color={color} />
         </AnimatedContainer>
     );

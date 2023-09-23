@@ -8,6 +8,8 @@ export const Container = styled.View`
     padding: 28px 32px 32px 32px;
 
     background-color: ${({ theme }) => theme.COLORS.WHITE} ;
+
+    position: relative; /* auxiliar o posicionamento da badge */
 `;
 
 export const Content = styled.View`
