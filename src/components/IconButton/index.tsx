@@ -9,23 +9,23 @@ const AnimatedContainer = Animated.createAnimatedComponent(Container);
 
 export type IconButtonProps = (props: IconProps) => JSX.Element;
 
-type Props = Animated.AnimateProps<StyleProps> & {
+type Props = TouchableOpacityProps/*  & Animated.AnimateProps<StyleProps> */ & {
     style?: StyleProps;
     icon: IconButtonProps;
     weight?: IconWeight;
     size: number;
-    // color?: string;
+    color?: string;
     children?: ReactNode;
 }
 
 export const IconButton: React.FC<Props> = ({icon: Icon, size = 20, weight = 'fill', color, children, ...rest}) => {
     return (
-        <AnimatedContainer
+        <Container
             activeOpacity={0.7}
             {...rest}
         >
             {children}
             <Icon weight={weight} size={size} color={color} />
-        </AnimatedContainer>
+        </Container>
     );
 }

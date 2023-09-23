@@ -1,4 +1,5 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Cart } from '@screens/Cart';
 
 import { Home } from '@screens/Home';
 import { Product } from '@screens/Product';
@@ -33,6 +34,16 @@ export function AppRoutes() {
                     statusBarTranslucent: true,
                     statusBarColor: 'transparent'
                 }}
+            />
+
+            <Screen 
+                name='cart'
+                component={Cart}
+                // options={{
+                //     statusBarStyle: 'light',
+                //     statusBarTranslucent: true,
+                //     statusBarColor: 'transparent'
+                // }}
             />
         </Navigator>
     );

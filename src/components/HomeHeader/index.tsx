@@ -3,10 +3,11 @@ import { City, Container, Location } from "./styles";
 import { useTheme } from "styled-components/native";
 import { IconButton } from "@components/IconButton";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import Animated, { AnimateProps, FadeInRight, FadeOutUp, SharedValue, SlideInLeft, SlideInRight, SlideInUp, SlideOutRight, StyleProps, interpolate, interpolateColor, useAnimatedStyle } from "react-native-reanimated";
+import Animated, { AnimateProps, FadeInRight, FadeOutRight, FadeOutUp, SharedValue, SlideInLeft, SlideInRight, SlideInUp, SlideOutRight, StyleProps, interpolate, interpolateColor, useAnimatedStyle } from "react-native-reanimated";
 import { TouchableOpacity, ViewProps } from "react-native";
 import { ReactNode } from "react";
 import { Badge } from "@components/Badge";
+import { useNavigation } from "@react-navigation/native";
 
 const ContainerAnimated = Animated.createAnimatedComponent(Container);
 const CityTextAnimated = Animated.createAnimatedComponent(City);
@@ -19,9 +20,9 @@ type Props = Animated.AnimateProps<ViewProps> & {
 
 export function HomeHeader({style, introContainerPosition = undefined, shownBackButton = false}: Props) {
     const { COLORS } = useTheme();
+    const navigation = useNavigation()
 
     const insets = useSafeAreaInsets();
-
     const paddingTop = insets.top + 32;
 
     const cityTextAnimatedStyles = useAnimatedStyle(() => {
@@ -30,23 +31,19 @@ export function HomeHeader({style, introContainerPosition = undefined, shownBack
       }
     })
 
-    const cartIconAnimatedStyles = useAnimatedStyle(() => {
-      return {
-        color: shownBackButton ? COLORS.WHITE : COLORS.YELLOW_DARK,
-      }
-    })
+    function handleNavigateToCart() {
+        navigation.navigate('cart')
+    }
 
     return (
         <ContainerAnimated 
             style={[style, {paddingTop}]}
-            entering={FadeInRight.duration(400)}
-            exiting={FadeOutUp.duration(400)}
         >
             {
                 shownBackButton ? (
                         <Animated.View 
                             entering={SlideInLeft.duration(400).delay(250)}
-                            exiting={SlideOutRight.duration(400)}
+                            exiting={FadeOutRight.duration(200)}
                         >
                             <IconButton icon={ArrowLeft} size={24} color={COLORS.WHITE} weight="regular"  />
                         </Animated.View>
@@ -61,16 +58,16 @@ export function HomeHeader({style, introContainerPosition = undefined, shownBack
                     )
             }
 
-            <IconButton
-                style={cartIconAnimatedStyles}
-                sharedTransitionTag="headerHeightAnimateTag" 
-                icon={ShoppingCart} 
-                size={20} 
-                color={shownBackButton ? COLORS.WHITE : COLORS.YELLOW_DARK} 
-            >
-                <Badge value={3} />
-            </IconButton>
-
+            <Animated.View sharedTransitionTag="headerHeightAnimateTag">
+                <IconButton
+                    icon={ShoppingCart} 
+                    size={20} 
+                    color={shownBackButton ? COLORS.WHITE : COLORS.YELLOW_DARK} 
+                    onPress={handleNavigateToCart}
+                >
+                    <Badge value={3} />
+                </IconButton>
+            </Animated.View>
         </ContainerAnimated>
     );
 } 

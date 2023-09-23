@@ -4,11 +4,17 @@ import Animated, { Easing, FadeInUp } from "react-native-reanimated";
 import { ArrowRight, ShoppingCart } from "phosphor-react-native";
 import { useTheme } from "styled-components/native";
 import { Badge } from "@components/Badge";
+import { useNavigation } from "@react-navigation/native";
 
 const AnimatedContainer = Animated.createAnimatedComponent(Container)
 
 export const MessageItemAddedToCart: React.FC = () => {
     const { COLORS } = useTheme();
+    const navigation = useNavigation()
+
+    function handleNavigateToCart() {
+        navigation.navigate('cart');
+    }
 
     return (
         <AnimatedContainer
@@ -28,7 +34,9 @@ export const MessageItemAddedToCart: React.FC = () => {
                     {` adicionado ao carrinho`} 
                 </Message>
 
-                <ShowCartButtonLink>
+                <ShowCartButtonLink
+                    onPress={handleNavigateToCart}
+                >
                     <Label>VER</Label>
                     <ArrowRight style={{marginLeft: 4}} color={COLORS.PURPLE} size={16} />
                 </ShowCartButtonLink>
