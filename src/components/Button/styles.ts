@@ -1,10 +1,16 @@
 import styled, { css } from "styled-components/native";
 
-export const Container = styled.Pressable`
+export type ButtonColorStyleProps = "PRIMARY" | "SECONDARY";
+
+type Props = {
+  color?: ButtonColorStyleProps;
+}
+
+export const Container = styled.Pressable<Props>`
     width: '100%';
     padding: 12px 8px;
     border-radius: 6px;
-    background-color: ${({ theme }) => theme.COLORS.PURPLE_DARK};
+    background-color: ${({ theme, color = "PRIMARY" }) => color === "PRIMARY" ? theme.COLORS.PURPLE_DARK : theme.COLORS.YELLOW_DARK};
 
     align-items: center;
     justify-content: center;

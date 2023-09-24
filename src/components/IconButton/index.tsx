@@ -10,7 +10,6 @@ const AnimatedContainer = Animated.createAnimatedComponent(Container);
 export type IconButtonProps = (props: IconProps) => JSX.Element;
 
 type Props = TouchableOpacityProps/*  & Animated.AnimateProps<StyleProps> */ & {
-    style?: StyleProps;
     icon: IconButtonProps;
     weight?: IconWeight;
     size: number;

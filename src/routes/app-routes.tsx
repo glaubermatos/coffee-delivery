@@ -39,11 +39,11 @@ export function AppRoutes() {
             <Screen 
                 name='cart'
                 component={Cart}
-                // options={{
-                //     statusBarStyle: 'light',
-                //     statusBarTranslucent: true,
-                //     statusBarColor: 'transparent'
-                // }}
+                options={{
+                    statusBarStyle: 'dark',
+                    statusBarTranslucent: true,
+                    statusBarColor: 'transparent'
+                }}
             />
         </Navigator>
     );

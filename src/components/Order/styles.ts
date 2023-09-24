@@ -8,7 +8,7 @@ export const Container = styled.View`
     gap: 20px;
 `;
 
-export const Content = styled.View`
+export const Row = styled.View`
     flex-direction: row;
     gap: 4px;
     align-items: center;
@@ -23,7 +23,7 @@ export const Label = styled.Text`
     `}
 `;
 
-export const ValueTotal = styled.Text`
+export const Value = styled.Text`
     ${({ theme }) => css`
         color: ${theme.COLORS.GRAY_200};
         font-size: ${theme.FONT_SIZE.BALOO_2.MD}px;

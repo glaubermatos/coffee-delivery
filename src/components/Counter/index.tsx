@@ -12,11 +12,11 @@ export const Counter: React.FC<Props> = ({showBorders = false}) => {
         <Container
             showBorders={showBorders}
         >
-            <IconButton icon={Minus} size={20} weight="bold" color={COLORS.PURPLE_DARK} />
+            <IconButton icon={Minus} size={20} weight="bold" color={COLORS.PURPLE} />
             <CounterValue>
                 1
             </CounterValue>
-            <IconButton icon={Plus} size={20} weight="bold" color={COLORS.PURPLE_DARK} />
+            <IconButton icon={Plus} size={20} weight="bold" color={COLORS.PURPLE} />
         </Container>
     );
 }
