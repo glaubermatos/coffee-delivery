@@ -4,13 +4,18 @@ import { Order } from "@components/Order";
 import { FlatList, ListRenderItemInfo, StyleSheet, Text, View } from "react-native";
 import { CartItem } from "@components/CartItem";
 import Swipeable, { SwipeableProps } from "react-native-gesture-handler/Swipeable";
-import { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useTheme } from "styled-components/native";
 import THEME from '@theme/defaultTheme'
 import { Trash } from "phosphor-react-native";
-import Animated, { FadeInDown, FadeOut, Layout, SlideInRight } from "react-native-reanimated";
+import Animated, { FadeInDown, FadeOut, FadeOutDown, Layout, SlideInRight } from "react-native-reanimated";
+import { Button } from "@components/Button";
+import { CartListEmpty } from "@components/CartListEmpty";
 
 export const Cart: React.FC = () => {
+    // const [cart, setCart] = useState([])
+    const [cart, setCart] = useState(["café 1", "café 2", "café 3"])
+
     const {COLORS} = useTheme();
     const swipeableRefs = useRef<SwipeableProps[]>([]);
 
@@ -39,8 +44,8 @@ export const Cart: React.FC = () => {
                         // onPress={() => handleRemove(item.id, index)}
                     >
                         <Trash
-                        size={32}
-                        color={THEME.COLORS.RED_DARK}
+                            size={32}
+                            color={THEME.COLORS.RED_DARK}
                         />
                     </View>
                     )}
@@ -51,17 +56,38 @@ export const Cart: React.FC = () => {
         )
     }
 
+    function renderListEmpty() {
+        return (
+            <Animated.View
+                entering={FadeInDown.delay(100).duration(200)}
+            >
+                <CartListEmpty />
+            </Animated.View>
+        );
+    }
+
     return (
         <Container>
             <CartHeader />
 
             <FlatList
-                data={["café 1", "café 2", "café 3"]}
+                style={{flex: 1}}
+                data={cart}
                 keyExtractor={(item) => String(item)}
                 renderItem={(props) => renderItem(props)}
+                ListEmptyComponent={() => renderListEmpty()}
             />
 
-            <Order />
+            {
+                cart.length > 0 && (
+                    <Animated.View
+                        entering={FadeInDown.delay(500).duration(300)}
+                        exiting={FadeOutDown}
+                    >
+                        <Order />
+                    </Animated.View>
+                )
+            }
         </Container>
     );
 }
