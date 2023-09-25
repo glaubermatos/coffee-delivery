@@ -27,7 +27,6 @@ export function Product() {
 
 
     function handleAddToCart() {
-        console.log('======> handleAddToCart')
         setHasBeenAddedToCart(true);
 
         Toast.show({
@@ -35,8 +34,6 @@ export function Product() {
         })
 
         setTimeout(() => {navigation.goBack();}, 700);
-
-        
     }
 
     return (

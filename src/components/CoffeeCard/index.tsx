@@ -16,7 +16,7 @@ type Props = PressableProps & {
 export function CoffeeCard({size = "DEFAULT", index, ...rest}: Props) {
     return (
         <AnimatedTouchableOpacity 
-            entering={SlideInRight.delay(600 + index * 150).duration(800).damping(15)}
+            entering={SlideInRight.delay(300 + index * 150).duration(800).damping(15)}
             size={size}   
             {...rest}
         >

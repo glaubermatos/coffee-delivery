@@ -24,7 +24,7 @@ export function HighlightList() {
     return (
         <ContainerAnimated 
             entering={SlideInRight
-                .delay(500)
+                .delay(300)
                 .duration(800)
                 .easing(Easing.ease)
                 .stiffness(50)

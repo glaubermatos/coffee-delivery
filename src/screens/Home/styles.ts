@@ -55,5 +55,3 @@ export const SectionTitle = styled.Text`
     font-size: ${theme.FONT_SIZE.BALOO_2.XS}px;
   `}
 `;
-
-export const CoffeeSectionList = styled(SectionList)``;

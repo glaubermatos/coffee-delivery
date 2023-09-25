@@ -4,7 +4,6 @@ import { Cart } from '@screens/Cart';
 import { Home } from '@screens/Home';
 import { Product } from '@screens/Product';
 import { PurchaseCompleted } from '@screens/PurchaseCompleted';
-import { Easing, FadeOut } from 'react-native-reanimated';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -20,7 +19,7 @@ export function AppRoutes() {
             statusBarTranslucent: true,
             statusBarColor: 'transparent'
 
-            // cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+                // cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
             // ...TransitionPresets.SlideFromRightIOS, 
         }}>
             <Screen 

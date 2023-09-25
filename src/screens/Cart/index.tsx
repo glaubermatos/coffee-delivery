@@ -1,5 +1,5 @@
 import { CartHeader } from "@components/CartHeader";
-import { Container } from "./styles";
+import { Container, SwipeableCard, SwipeableRemoveContainer } from "./styles";
 import { Order } from "@components/Order";
 import { FlatList, ListRenderItemInfo, StyleSheet, Text, View } from "react-native";
 import { CartItem } from "@components/CartItem";
@@ -22,11 +22,11 @@ export const Cart: React.FC = () => {
     function renderItem({item, index}: ListRenderItemInfo<string>) {
         return (
             <Animated.View 
-                entering={FadeInDown.delay(300 + index * 75).duration(300)}
+                entering={FadeInDown.delay(200 + index * 50).duration(200)}
                 exiting={FadeOut}
                 layout={Layout.springify()}    
             >
-                <Swipeable
+                <SwipeableCard
                     ref={(ref) => {
                         if (ref) {
                             swipeableRefs.current.push(ref.props)
@@ -34,24 +34,20 @@ export const Cart: React.FC = () => {
                     }}
                     overshootRight={false}
                     overshootLeft={false}
-                    containerStyle={styles.swipeableContainer}
                     leftThreshold={10}
+                    renderLeftActions={() => (
+                        <SwipeableRemoveContainer>
+                            <Trash
+                                size={32}
+                                color={THEME.COLORS.RED_DARK}
+                            />
+                        </SwipeableRemoveContainer>
+                    )}
                     // onSwipeableOpen={() => handleRemove(item.id, index)}
                     renderRightActions={() => null}
-                    renderLeftActions={() => (
-                    <View
-                        style={styles.swipeableRemove}
-                        // onPress={() => handleRemove(item.id, index)}
-                    >
-                        <Trash
-                            size={32}
-                            color={THEME.COLORS.RED_DARK}
-                        />
-                    </View>
-                    )}
                 >
                     <CartItem index={index} />
-                </Swipeable>
+                </SwipeableCard>
             </Animated.View>
         )
     }
@@ -91,19 +87,3 @@ export const Cart: React.FC = () => {
         </Container>
     );
 }
-
-export const styles = StyleSheet.create({
-    swipeableContainer: {
-      width: '100%',
-      backgroundColor: THEME.COLORS.RED_LIGHT, 
-      borderRadius: 6,
-    },
-    swipeableRemove: {
-      width: 90,
-      borderRadius: 6,
-      backgroundColor: THEME.COLORS.RED_LIGHT,
-      alignItems: 'center',
-      justifyContent: 'center',
-    }
-  
-  });

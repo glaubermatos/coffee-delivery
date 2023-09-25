@@ -1,7 +1,7 @@
 import { Pressable, PressableProps, Text, TouchableOpacityProps } from "react-native";
 import { Container, Label } from "./styles";
 
-type Props = TouchableOpacityProps & {
+type Props = PressableProps & {
     name: string,
     isActive?: boolean,
 }
@@ -9,7 +9,7 @@ type Props = TouchableOpacityProps & {
 export function TagFilter({ name, isActive = false, ...rest }: Props) {
     return (
         <Container
-            activeOpacity={0.5}
+            // activeOpacity={0.5}
             isActive={isActive}        
           {...rest}
         >
