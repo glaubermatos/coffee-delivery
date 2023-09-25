@@ -3,6 +3,7 @@ import { Cart } from '@screens/Cart';
 
 import { Home } from '@screens/Home';
 import { Product } from '@screens/Product';
+import { PurchaseCompleted } from '@screens/PurchaseCompleted';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -39,6 +40,16 @@ export function AppRoutes() {
             <Screen 
                 name='cart'
                 component={Cart}
+                options={{
+                    statusBarStyle: 'dark',
+                    statusBarTranslucent: true,
+                    statusBarColor: 'transparent'
+                }}
+            />
+
+            <Screen 
+                name='purchase-completed'
+                component={PurchaseCompleted}
                 options={{
                     statusBarStyle: 'dark',
                     statusBarTranslucent: true,

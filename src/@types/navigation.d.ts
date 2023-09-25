@@ -4,6 +4,7 @@ export declare global {
         home: undefined;
         product: undefined;
         cart: undefined;
+        'purchase-completed': undefined;
       }
     }
   }
