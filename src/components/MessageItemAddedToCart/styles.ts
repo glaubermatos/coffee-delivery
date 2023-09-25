@@ -1,15 +1,13 @@
+import { Dimensions } from "react-native";
 import styled, { css } from "styled-components/native";
 
-export const Container = styled.View`
-    margin-left: -32px;
-    margin-right: -32px;
-    margin-bottom: -32px;
+const dimensions = Dimensions.get('window')
 
+export const Container = styled.Pressable`
+    width: ${dimensions.width}px;
     padding: 28px 32px 32px 32px;
 
     background-color: ${({ theme }) => theme.COLORS.WHITE} ;
-
-    position: relative; /* auxiliar o posicionamento da badge */
 `;
 
 export const Content = styled.View`

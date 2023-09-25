@@ -27,6 +27,7 @@
     "react-native-snap-carousel": "^3.9.1",
     "react-native-svg": "13.9.0",
     "react-native-tabs-section-list": "^1.0.1",
+    "react-native-toast-message": "^2.1.6",
     "styled-components": "^6.0.7"
   },
   "devDependencies": {

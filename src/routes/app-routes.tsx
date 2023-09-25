@@ -4,6 +4,7 @@ import { Cart } from '@screens/Cart';
 import { Home } from '@screens/Home';
 import { Product } from '@screens/Product';
 import { PurchaseCompleted } from '@screens/PurchaseCompleted';
+import { Easing, FadeOut } from 'react-native-reanimated';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -33,7 +34,8 @@ export function AppRoutes() {
                 options={{
                     statusBarStyle: 'light',
                     statusBarTranslucent: true,
-                    statusBarColor: 'transparent'
+                    statusBarColor: 'transparent',    
+                    animationTypeForReplace: 'push'
                 }}
             />
 

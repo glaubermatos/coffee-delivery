@@ -1,24 +1,29 @@
 import { Text, TouchableOpacity, View } from "react-native";
 import { CartIconContainer, Container, Content, Highlight, Label, Message, ShowCartButtonLink } from "./styles";
-import Animated, { Easing, FadeInUp } from "react-native-reanimated";
+import Animated, { Easing, FadeInUp, SlideOutDown } from "react-native-reanimated";
 import { ArrowRight, ShoppingCart } from "phosphor-react-native";
 import { useTheme } from "styled-components/native";
 import { Badge } from "@components/Badge";
 import { useNavigation } from "@react-navigation/native";
+import Toast from "react-native-toast-message";
 
 const AnimatedContainer = Animated.createAnimatedComponent(Container)
 
 export const MessageItemAddedToCart: React.FC = () => {
     const { COLORS } = useTheme();
-    const navigation = useNavigation()
+    const navigation = useNavigation();
 
     function handleNavigateToCart() {
+        Toast.hide();
         navigation.navigate('cart');
     }
 
     return (
-        <AnimatedContainer
-            entering={FadeInUp.duration(400).easing(Easing.quad)}
+        <Container
+            // sharedTransitionTag="messageAddedItemToCart"
+            // entering={FadeInUp.duration(400).easing(Easing.quad)}
+            // exiting={SlideOutDown.delay(4000).duration(400)}
+            onPress={handleNavigateToCart}
         >
             <Content>
                 <CartIconContainer>
@@ -42,6 +47,6 @@ export const MessageItemAddedToCart: React.FC = () => {
                 </ShowCartButtonLink>
 
             </Content>
-        </AnimatedContainer>
+        </Container>
     );
 }

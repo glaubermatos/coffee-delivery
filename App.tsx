@@ -10,6 +10,9 @@ import { ActivityIndicator, StatusBar, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useState } from 'react';
 import Animated from 'react-native-reanimated';
+import { CartProvider } from '@contexts/CartContext';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import theme from '@theme/defaultTheme'
 
 const AnimatedStatusBar = Animated.createAnimatedComponent(StatusBar);
 
@@ -34,13 +37,18 @@ export default function App() {
     <GestureHandlerRootView style={{flex: 1}}>
       <ThemeProvider theme={defaultTheme}>
 
-        <StatusBar
-            barStyle={"light-content"}
-            backgroundColor='transparent'
-            translucent
-        />
+        {/* <SafeAreaProvider style={{ flex: 1, backgroundColor: theme.COLORS.GRAY_900}}> */}
+          <StatusBar
+              barStyle={"light-content"}
+              backgroundColor='transparent'
+              translucent
+          />
 
-          <Routes />
+          <CartProvider>
+            <Routes />
+          </CartProvider>
+        {/* </SafeAreaProvider> */}
+
       </ThemeProvider>
     </GestureHandlerRootView>
   );

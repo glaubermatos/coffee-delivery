@@ -10,7 +10,7 @@ import { useCallback, useRef, useState } from 'react';
 import { CoffeeItem } from '@components/CoffeeItem';
 import SectionList from 'react-native-tabs-section-list';
 
-import Animated, { Easing, Extrapolate, interpolate, useAnimatedStyle, useSharedValue, SlideInUp, interpolateColor, withSpring, runOnJS, withTiming } from 'react-native-reanimated';
+import Animated, { Easing, Extrapolate, interpolate, useAnimatedStyle, useSharedValue, SlideInUp, interpolateColor, withSpring, runOnJS, withTiming, SlideOutDown } from 'react-native-reanimated';
 import { useTheme } from 'styled-components/native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
@@ -21,8 +21,12 @@ const AnimatedStatusBar = Animated.createAnimatedComponent(StatusBar);
 import { SharedTransition } from 'react-native-reanimated';
 import { IconButton } from '@components/IconButton';
 import { ShoppingCart } from 'phosphor-react-native';
+import { MessageItemAddedToCart } from '@components/MessageItemAddedToCart';
+import { useCart } from '@hooks/index';
 
 export function Home() {
+    const { hasBeenAddedToCart } = useCart();
+
     const [coffees, setCoffees] = useState([{title: 'tradicionais', data: [
         {id: 1, name: 'Irlandês', description: 'lorem ipsum dolor'},
         {id: 2, name: 'Café com leite', description: 'lorem ipsum dolor'},
@@ -184,7 +188,6 @@ export function Home() {
                 introContainerPosition={introContainerPosition} 
             /> 
             
-            {/* <GestureDetector gesture={onPanDown}> */}
                 <Container>
                     {/* <GestureDetector gesture={onPanUp}> */}
                         <Animated.View 
@@ -259,7 +262,6 @@ export function Home() {
 
                         
                             <SectionList
-                                nestedScrollEnabled
                                 style={{ paddingBottom: 8, elevation: 10}}
                                 stickySectionHeadersEnabled={false}
                                 ref={listRef}
@@ -277,7 +279,6 @@ export function Home() {
                         </View>
                     </GestureDetector>
                 </Container>
-            {/* </GestureDetector> */}
         </SafeAreaView>
     )
 }   

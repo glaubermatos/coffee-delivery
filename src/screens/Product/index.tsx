@@ -15,19 +15,32 @@ import { Counter } from "@components/Counter";
 import { Footer } from "@components/Footer";
 import { useState } from "react";
 import { MessageItemAddedToCart } from "@components/MessageItemAddedToCart";
+import { useNavigation } from "@react-navigation/native";
+import { useCart } from "@hooks/index";
+import Toast from "react-native-toast-message";
 
 const AnimatedContainer = Animated.createAnimatedComponent(Container)
 
 export function Product() {
-    const { COLORS } = useTheme();
     const [hasBeenAddedToCart, setHasBeenAddedToCart] = useState(false);
+    const navigation = useNavigation();
+
 
     function handleAddToCart() {
-        setHasBeenAddedToCart(true)
+        console.log('======> handleAddToCart')
+        setHasBeenAddedToCart(true);
+
+        Toast.show({
+            type: 'info',
+        })
+
+        setTimeout(() => {navigation.goBack();}, 700);
+
+        
     }
 
     return (
-        <AnimatedContainer>
+        <AnimatedContainer exiting={FadeOut}>
             <Content>   
                 <HomeHeader
                     shownBackButton
@@ -66,10 +79,11 @@ export function Product() {
 
             <Footer>
                 {
-                    hasBeenAddedToCart ? (
-                        <MessageItemAddedToCart />
-                    ) : (
-                        <Animated.View style={{gap: 20}} exiting={FadeOut.duration(100).easing(Easing.out(Easing.back()))}>
+                    !hasBeenAddedToCart && (
+                        <Animated.View 
+                            style={{gap: 20}} 
+                            exiting={FadeOut.duration(900).easing(Easing.out(Easing.ease))}
+                        >
                             <Selection>
                                 <SelectionTitle>
                                     Selecione o tamanho:
@@ -85,7 +99,7 @@ export function Product() {
                             <AddToCartContainer>
                                 <Counter showBorders={false} />
 
-                                <Button style={{flex: 1}} name="Adicionar" onPress={handleAddToCart} />
+                                <Button style={{flex: 1}} name="Adicionar" onPress={() => handleAddToCart()} />
                             </AddToCartContainer>
                         </Animated.View>
                     )

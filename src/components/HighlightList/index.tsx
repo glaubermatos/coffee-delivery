@@ -4,7 +4,7 @@ import { CoffeeCard } from "@components/CoffeeCard";
 
 import Carousel from 'react-native-snap-carousel'; 
 import { Dimensions } from "react-native";
-import Animated, { SlideInRight } from "react-native-reanimated";
+import Animated, { Easing, SlideInRight } from "react-native-reanimated";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
 
@@ -22,27 +22,35 @@ export function HighlightList() {
     }
 
     return (
-        <ContainerAnimated> 
-            <Carousel
-              data={coffees}
-              renderItem={({item, index}) => (
-                <CoffeeCard
-                    index={index} 
-                    size="FOCUSED"
-                    onPress={() => handleNavigateToProduct(1)}
+        <ContainerAnimated 
+            entering={SlideInRight
+                .delay(500)
+                .duration(800)
+                .easing(Easing.ease)
+                .stiffness(50)
+                .damping(15)
+                .mass(1)}
+            > 
+                <Carousel
+                data={coffees}
+                renderItem={({item, index}) => (
+                    <CoffeeCard
+                        index={index} 
+                        size="FOCUSED"
+                        onPress={() => handleNavigateToProduct(1)}
+                    />
+                )}
+                sliderWidth={SLIDER_WIDTH}
+                itemWidth={ITEM_WIDTH}
+                useScrollView={true}
+                firstItem={0}
+                snapToOffsets={[...Array(coffees.length)].map((item, index) => index * (SLIDER_WIDTH*0.55 ) + (index-1) )}
+                inactiveSlideOpacity={1}
+                inactiveSlideScale={0.7}
+                activeSlideAlignment={"start"}
+                activeSlideOffset={20}
+                contentContainerCustomStyle={{paddingLeft: 16, paddingTop: 38, paddingBottom: 32}}
                 />
-              )}
-              sliderWidth={SLIDER_WIDTH}
-              itemWidth={ITEM_WIDTH}
-              useScrollView={true}
-              firstItem={0}
-              snapToOffsets={[...Array(coffees.length)].map((item, index) => index * (SLIDER_WIDTH*0.55 ) + (index-1) )}
-              inactiveSlideOpacity={1}
-              inactiveSlideScale={0.7}
-              activeSlideAlignment={"start"}
-              activeSlideOffset={20}
-              contentContainerCustomStyle={{paddingLeft: 16, paddingTop: 38, paddingBottom: 32}}
-            />
         </ContainerAnimated>
     );
 }
