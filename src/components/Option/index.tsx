@@ -1,14 +1,20 @@
 import { PressableProps } from "react-native";
 import { Container, Label } from "./styles";
+import { forwardRef } from "react";
+import Animated, { StyleProps } from "react-native-reanimated";
+
+const AnimatedContainer = Animated.createAnimatedComponent(Container);
 
 type Props = PressableProps & {
     name: string,
     isActive?: boolean,
 }
 
-export function Option({ name, isActive = false, ...rest }: Props) {
+export const Option: React.FC<Props> = ({ name, isActive = false, ...rest }) => {
+  // const OptionBase: React.ForwardRefRenderFunction<any, Props> = ({ name, isActive = false, ...rest }, ref) => {
     return (
-        <Container
+        <AnimatedContainer
+          isActive={isActive}
         //   overflow="hidden"
         //   isPressed={isActive}
         //   _pressed={{
@@ -18,9 +24,11 @@ export function Option({ name, isActive = false, ...rest }: Props) {
 
           {...rest}
         >
-          <Label>
+          <Label isActive={isActive}>
             {name}
           </Label>
-        </Container>
+        </AnimatedContainer>
     );
 }
+
+// export const Option = forwardRef(OptionBase);
