@@ -6,6 +6,7 @@ import { ShoppingCart } from "phosphor-react-native";
 import { useTheme } from "styled-components/native";
 import { Tag } from "@components/Tag";
 import { Text, View } from "react-native";
+import { Audio } from 'expo-av'
 
 import irlandesImg from '@assets/coffee.png'
 import SmokeImg from '@assets/smoke_4.svg'
@@ -39,7 +40,6 @@ export function Product() {
     const [hasBeenAddedToCart, setHasBeenAddedToCart] = useState(false);
     const [productSizes, setProductSizes] = useState<ProductSize[]>(DATA);
     const [productSizeSelected, setProductSizeSelected] = useState(0);
-    const [showErrorFeedback, setShowErrorFeedback] = useState(false);
 
     const { COLORS } = useTheme();
 
@@ -47,15 +47,27 @@ export function Product() {
 
     const navigation = useNavigation();
 
+    async function playSound(isCorrect: boolean) {
+      const file = isCorrect ? require('@assets/sounds/item-added-cart.mp3') : require('@assets/sounds/error.mp3')
+  
+      const { sound } = await Audio.Sound.createAsync(file, { shouldPlay: true});
+  
+      await sound.setPositionAsync(0)
+      await sound.playAsync();
+    }
 
-    function handleAddToCart() {
+
+    async function handleAddToCart() {
         if (productSizeSelected === 0) {
-            setShowErrorFeedback(true)
+            await playSound(false);
+            
             errorAnimation()
             return;
         }
 
         setHasBeenAddedToCart(true);
+
+        await playSound(true);
 
         Toast.show({
             type: 'info',
@@ -67,11 +79,11 @@ export function Product() {
     async function errorAnimation() {
         // await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
         errorSize.value = withSequence(
-            withTiming(1, { duration: 400, easing: Easing.linear  }), 
-            withTiming(0, { duration: 2500, easing: Easing.out(Easing.back())}, (finished) => {
+            withTiming(1, { duration: 500, easing: Easing.linear  }), 
+            withTiming(0, { duration: 3500, easing: Easing.out(Easing.back())}, (finished) => {
                 'worklet';
                 if (finished) {
-                    runOnJS(setShowErrorFeedback)(false);
+                    // runOnJS(setShowErrorFeedback)(false);
                 }
             })
         )

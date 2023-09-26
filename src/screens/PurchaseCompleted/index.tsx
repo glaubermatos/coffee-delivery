@@ -5,6 +5,8 @@ import DeliveryImg from '@assets/delivery-illustration.svg';
 import { useNavigation } from "@react-navigation/native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Animated, { BounceInLeft, Easing, FadeIn, FadeInDown, SlideInLeft } from "react-native-reanimated";
+import { Audio } from "expo-av";
+import { useEffect } from "react";
 
 export const PurchaseCompleted: React.FC = () => {
     const navigation = useNavigation();
@@ -15,6 +17,19 @@ export const PurchaseCompleted: React.FC = () => {
     function handleNavigateToHome() {
         navigation.navigate('home');
     }
+
+    async function playSound() {
+      const file = require('@assets/sounds/purchase-completed.mp3');
+  
+      const { sound } = await Audio.Sound.createAsync(file, { shouldPlay: true});
+  
+      await sound.setPositionAsync(0)
+      await sound.playAsync();
+    }
+
+    useEffect(() => {
+        playSound();
+    }, [])
 
     return (
         <Container style={{paddingTop}}>
