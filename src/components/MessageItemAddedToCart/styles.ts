@@ -4,7 +4,7 @@ import styled, { css } from "styled-components/native";
 const dimensions = Dimensions.get('window')
 
 export const Container = styled.Pressable`
-    width: ${dimensions.width}px;
+    width: 100%;
     padding: 28px 32px 32px 32px;
 
     background-color: ${({ theme }) => theme.COLORS.WHITE} ;

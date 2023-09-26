@@ -68,7 +68,7 @@ export function Product() {
         // await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
         errorSize.value = withSequence(
             withTiming(1, { duration: 400, easing: Easing.linear  }), 
-            withTiming(0, { duration: 2000, easing: Easing.linear}, (finished) => {
+            withTiming(0, { duration: 2500, easing: Easing.out(Easing.back())}, (finished) => {
                 'worklet';
                 if (finished) {
                     runOnJS(setShowErrorFeedback)(false);
@@ -85,13 +85,13 @@ export function Product() {
 
     const selectSizeOptionAnimatedStyle = useAnimatedStyle(() => {
       return {
-          borderWidth: interpolate(errorSize.value, [0, 1], [1, 1]),
+          borderWidth: interpolate(errorSize.value, [0, 1], [0, 1]),
           borderColor: interpolateColor(errorSize.value, [0, 1], [productSizeSelected > 0 ? COLORS.PURPLE : 'transparent', COLORS.RED_DARK]),
       }
     });
 
     return (
-        <AnimatedContainer exiting={FadeOut}>
+        <AnimatedContainer>
             <Content>   
                 <HomeHeader
                     shownBackButton
@@ -133,7 +133,7 @@ export function Product() {
                     !hasBeenAddedToCart && (
                         <Animated.View 
                             style={{gap: 20}} 
-                            exiting={FadeOut.duration(900).easing(Easing.out(Easing.ease))}
+                            exiting={FadeOut.duration(400).easing(Easing.out(Easing.ease))}
                         >
                             <Selection>
                                 <AnimatedSelectionTitle style={selectSizeTextAnimatedStyle}>
