@@ -8,6 +8,7 @@ import { TouchableOpacity, ViewProps } from "react-native";
 import { ReactNode } from "react";
 import { Badge } from "@components/Badge";
 import { useNavigation } from "@react-navigation/native";
+import { useCart } from "@hooks/index";
 
 const ContainerAnimated = Animated.createAnimatedComponent(Container);
 const CityTextAnimated = Animated.createAnimatedComponent(City);
@@ -19,6 +20,7 @@ type Props = Animated.AnimateProps<ViewProps> & {
 }
 
 export function HomeHeader({style, introContainerPosition = undefined, shownBackButton = false}: Props) {
+    const { cart } = useCart();
     const { COLORS } = useTheme();
     const navigation = useNavigation()
 
@@ -65,7 +67,7 @@ export function HomeHeader({style, introContainerPosition = undefined, shownBack
                     color={shownBackButton ? COLORS.WHITE : COLORS.YELLOW_DARK} 
                     onPress={handleNavigateToCart}
                 >
-                    <Badge value={3} />
+                    <Badge value={cart.length} />
                 </IconButton>
             </Animated.View>
         </ContainerAnimated>

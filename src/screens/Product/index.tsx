@@ -5,7 +5,7 @@ import { IconButton } from "@components/IconButton";
 import { ShoppingCart } from "phosphor-react-native";
 import { useTheme } from "styled-components/native";
 import { Tag } from "@components/Tag";
-import { Text, View } from "react-native";
+import { ImageSourcePropType, Text, View } from "react-native";
 import { Audio } from 'expo-av'
 
 import irlandesImg from '@assets/coffee.png'
@@ -14,15 +14,19 @@ import { Option } from "@components/Option";
 import { Button } from "@components/Button";
 import { Counter } from "@components/Counter";
 import { Footer } from "@components/Footer";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MessageItemAddedToCart } from "@components/MessageItemAddedToCart";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
 import { useCart } from "@hooks/index";
 import Toast from "react-native-toast-message";
+import { cartStorageAddItem } from "@storage/cart/CartStorageAddItem";
+import { StorageCartItemProps } from "@storage/dtos/storageCartItemProps";
 
 const AnimatedContainer = Animated.createAnimatedComponent(Container);
 const AnimatedSelectionTitle = Animated.createAnimatedComponent(SelectionTitle);
 // const AnimatedOption = Animated.createAnimatedComponent(Option);
+
+import {PRODUCTS} from '@data/products';
 
 
 type ProductSize = {
@@ -36,16 +40,34 @@ const DATA = [
     {id: 3, value: "227ml"},
 ]
 
+type Product = {
+    id: string;
+    tag: string;
+    name: string;
+    price: number;
+    image: ImageSourcePropType;
+    description: string;
+} 
+
+type RouteParamsProps = {
+    productId: string;
+}
+
 export function Product() {
     const [hasBeenAddedToCart, setHasBeenAddedToCart] = useState(false);
     const [productSizes, setProductSizes] = useState<ProductSize[]>(DATA);
-    const [productSizeSelected, setProductSizeSelected] = useState(0);
+    const [productSizeSelected, setProductSizeSelected] = useState('');
+    const [product, setProduct] = useState<Product | undefined>(undefined);
+    const [quantity, setQuantity] = useState(1);
 
     const { COLORS } = useTheme();
+    const route = useRoute();
 
     const errorSize = useSharedValue(0);
 
     const navigation = useNavigation();
+
+    const { productId } = route.params as RouteParamsProps;
 
     async function playSound(isCorrect: boolean) {
       const file = isCorrect ? require('@assets/sounds/item-added-cart.mp3') : require('@assets/sounds/error.mp3')
@@ -57,8 +79,8 @@ export function Product() {
     }
 
 
-    async function handleAddToCart() {
-        if (productSizeSelected === 0) {
+    async function handleAddToCart(productInput: StorageCartItemProps) {
+        if (productSizeSelected === '') {
             await playSound(false);
             
             errorAnimation()
@@ -68,6 +90,8 @@ export function Product() {
         setHasBeenAddedToCart(true);
 
         await playSound(true);
+
+        await cartStorageAddItem(productInput);
 
         Toast.show({
             type: 'info',
@@ -98,9 +122,15 @@ export function Product() {
     const selectSizeOptionAnimatedStyle = useAnimatedStyle(() => {
       return {
           borderWidth: interpolate(errorSize.value, [0, 1], [0, 1]),
-          borderColor: interpolateColor(errorSize.value, [0, 1], [productSizeSelected > 0 ? COLORS.PURPLE : 'transparent', COLORS.RED_DARK]),
+          borderColor: interpolateColor(errorSize.value, [0, 1], [productSizeSelected !== '' ? COLORS.PURPLE : 'transparent', COLORS.RED_DARK]),
       }
     });
+
+    useEffect(() => {
+        const product = PRODUCTS.find((prod) => prod.id === productId)
+
+        setProduct(product)
+    }, [product])
 
     return (
         <AnimatedContainer>
@@ -116,19 +146,19 @@ export function Product() {
                 <Info>
                     <Main>
                         <TitleContainer>
-                            <Tag name="especial" size="FOCUSED" color="secondary" />
+                            <Tag name={product?.tag!} size="FOCUSED" color="secondary" />
 
-                            <Name>Irlandês</Name>
+                            <Name>{product?.name}</Name>
                         </TitleContainer>
                         
                         <Price>
                             <Currency>R$</Currency>
-                            <Value>9,90</Value>
+                            <Value>{product?.price}</Value>
                         </Price>
                     </Main>
 
                     <Description>
-                        Bebida a base de café, uísque irlandês, açúcar e chantilly
+                        {product?.description}
                     </Description>
 
                 </Info>
@@ -167,8 +197,8 @@ export function Product() {
                                             >
                                                 <Option
                                                     name={size.value}
-                                                    isActive={productSizeSelected === size.id}
-                                                    onPress={() => setProductSizeSelected(size.id)}
+                                                    isActive={productSizeSelected === size.value}
+                                                    onPress={() => setProductSizeSelected(size.value)}
                                                 />
                                             </Animated.View>
                                         ))
@@ -177,15 +207,22 @@ export function Product() {
                             </Selection>
 
                             <AddToCartContainer>
-                                <Counter showBorders={false} />
+                                <Counter quantity={quantity} onChangeQuantity={setQuantity} showBorders={false} />
 
                                 <Button 
                                     style={{
                                         flex: 1,
-                                        opacity: productSizeSelected > 0 ? 1 : 0.4,
+                                        opacity: productSizeSelected !== '' ? 1 : 0.4,
                                     }} 
                                     name="Adicionar" 
-                                    onPress={() => handleAddToCart()}
+                                    onPress={() => handleAddToCart({
+                                        id: product?.id!,
+                                        name: product?.name!,
+                                        image: product?.image!,
+                                        price: product?.price!,
+                                        quantity,
+                                        size: productSizeSelected
+                                    })}
                                 />
                             </AddToCartContainer>
                         </Animated.View>

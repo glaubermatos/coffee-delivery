@@ -11,15 +11,19 @@ import { Trash } from "phosphor-react-native";
 import Animated, { FadeInDown, FadeOut, FadeOutDown, Layout, SlideInRight } from "react-native-reanimated";
 import { Button } from "@components/Button";
 import { CartListEmpty } from "@components/CartListEmpty";
+import { StorageCartItemProps } from "@storage/dtos/storageCartItemProps";
+import { useCart } from "@hooks/index";
 
 export const Cart: React.FC = () => {
     // const [cart, setCart] = useState([])
-    const [cart, setCart] = useState(["café 1", "café 2", "café 3"])
+    // const [cart, setCart] = useState(["café 1", "café 2", "café 3"])
+
+    const { cart } = useCart();
 
     const {COLORS} = useTheme();
     const swipeableRefs = useRef<SwipeableProps[]>([]);
 
-    function renderItem({item, index}: ListRenderItemInfo<string>) {
+    function renderItem({item, index}: ListRenderItemInfo<StorageCartItemProps>) {
         return (
             <Animated.View 
                 entering={FadeInDown.delay(200 + index * 50).duration(200)}
@@ -46,7 +50,10 @@ export const Cart: React.FC = () => {
                     // onSwipeableOpen={() => handleRemove(item.id, index)}
                     renderRightActions={() => null}
                 >
-                    <CartItem index={index} />
+                    <CartItem 
+                        data={item} 
+                        index={index}
+                    />
                 </SwipeableCard>
             </Animated.View>
         )
@@ -69,7 +76,7 @@ export const Cart: React.FC = () => {
             <FlatList
                 style={{flex: 1}}
                 data={cart}
-                keyExtractor={(item) => String(item)}
+                keyExtractor={(item) => String(item.id)}
                 renderItem={(props) => renderItem(props)}
                 ListEmptyComponent={() => renderListEmpty()}
             />

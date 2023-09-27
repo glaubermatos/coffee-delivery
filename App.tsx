@@ -8,13 +8,8 @@ import { useFonts, Baloo2_400Regular, Baloo2_700Bold } from '@expo-google-fonts/
 import { Roboto_400Regular, Roboto_700Bold } from '@expo-google-fonts/roboto';
 import { ActivityIndicator, StatusBar, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { useState } from 'react';
-import Animated from 'react-native-reanimated';
 import { CartProvider } from '@contexts/CartContext';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import theme from '@theme/defaultTheme'
 
-const AnimatedStatusBar = Animated.createAnimatedComponent(StatusBar);
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -53,8 +48,6 @@ export default function App() {
     </GestureHandlerRootView>
   );
 }
-
-
 
 
 
@@ -118,6 +111,14 @@ export default function App() {
 //     alignItems: 'center',
 //   },
 // });
+
+
+
+
+
+
+
+
 
 
 // import React, { useRef, useState } from 'react';
@@ -227,7 +228,6 @@ export default function App() {
 
 //   const handleTabPress = (index: number) => {
 //     if (activeTab !== index) {
-//         setActiveTab(index);
 //         scrollToSection(index);
 //     }
 //   };

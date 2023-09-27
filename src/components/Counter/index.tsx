@@ -4,19 +4,21 @@ import { Minus, Plus } from "phosphor-react-native";
 import { useTheme } from "styled-components/native";
 import { useState } from "react";
 
-type Props = CounterStyleProps & {};
+type Props = CounterStyleProps & {
+    onChangeQuantity: React.Dispatch<React.SetStateAction<number>>;
+    quantity: number;
+};
 
-export const Counter: React.FC<Props> = ({showBorders = false}) => {
-    const [value, setValue] = useState(1);
+export const Counter: React.FC<Props> = ({onChangeQuantity, quantity, showBorders = false}) => {
 
     const {  COLORS } = useTheme();
 
     function handleAddItem() {
-        setValue(previewState => previewState + 1);
+        onChangeQuantity(previewState => previewState + 1);
     }
 
     function handleRemoveItem() {
-        setValue(previewState => previewState - 1);
+        onChangeQuantity(previewState => previewState - 1);
     }
 
     return (
@@ -32,7 +34,7 @@ export const Counter: React.FC<Props> = ({showBorders = false}) => {
             />
 
             <CounterValue>
-                {value}
+                {quantity}
             </CounterValue>
 
             <IconButton 

@@ -9,33 +9,35 @@ import { TouchableOpacity } from "react-native";
 import Animated, { FadeInDown, FadeInRight, FadeInUp, SlideInDown } from "react-native-reanimated";
 import { useRef } from "react";
 import { SwipeableProps } from "react-native-gesture-handler/lib/typescript/components/Swipeable";
+import { StorageCartItemProps } from "@storage/dtos/storageCartItemProps";
 
 const AnimatedContainer = Animated.createAnimatedComponent(Container);
 
 type Props = {
     index: number;
+    data: StorageCartItemProps;
 }
 
-export const CartItem: React.FC<Props> = ({index}) => {
+export const CartItem: React.FC<Props> = ({data, index}) => {
     const { COLORS } = useTheme();
 
     return (
         <Container>
-            <ProductImage source={irlandesImg} />
+            <ProductImage source={data.image} />
 
             <Info>
                 <About>
                     <Title>
-                        <Name>Irlandês</Name>
+                        <Name>{data.name}</Name>
 
-                        <Size>227ml</Size>
+                        <Size>{data.size}</Size>
                     </Title>
 
-                    <ItemValue>R$ 9,90</ItemValue>
+                    <ItemValue>R$ {data.price}</ItemValue>
                 </About>
 
                 <Actions>
-                    <Counter showBorders />
+                    <Counter quantity={data.quantity} onChangeQuantity={() => {}} showBorders />
 
                     <TrashButton>
                         <Trash size={20} color={COLORS.PURPLE} weight="regular" />

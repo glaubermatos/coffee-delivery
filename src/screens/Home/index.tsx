@@ -4,25 +4,42 @@ import { CoffeeFilterContainer, CoffeeFilterTitle, Container, IntroContainer, In
 import { SearchInput } from '@components/SearchInput';
 import { HomeHeader } from '@components/HomeHeader';
 import { HighlightList } from '@components/HighlightList';
-import { SectionList, SectionListData, SectionListRenderItemInfo, SafeAreaView, StatusBar, View, ViewToken, TouchableOpacity, ScrollView } from 'react-native';
+import { SectionList, SectionListData, SectionListRenderItemInfo, SafeAreaView, StatusBar, View, ViewToken, TouchableOpacity, ScrollView, SectionListProps, ImageSourcePropType } from 'react-native';
 import { TagFilter } from '@components/TagFilter';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { CoffeeItem } from '@components/CoffeeItem';
 // import SectionList from 'react-native-tabs-section-list';
 
 import Animated, { Easing, Extrapolate, interpolate, useAnimatedStyle, useSharedValue, SlideInUp, interpolateColor, withSpring, runOnJS, withTiming, SlideOutDown, SlideInDown, FadeInDown } from 'react-native-reanimated';
 import { useTheme } from 'styled-components/native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 const AnimatedCoffeeFilterContainer = Animated.createAnimatedComponent(CoffeeFilterContainer);
-const AnimatedStatusBar = Animated.createAnimatedComponent(StatusBar);
+const AnimatedSectionList = Animated.createAnimatedComponent<SectionListProps<Product, SectionListDataProps>>(SectionList);
 
 import { SharedTransition } from 'react-native-reanimated';
 import { IconButton } from '@components/IconButton';
 import { ShoppingCart } from 'phosphor-react-native';
 import { MessageItemAddedToCart } from '@components/MessageItemAddedToCart';
 import { useCart } from '@hooks/index';
+
+import { PRODUCTS } from '../../data/products';
+import { TAGS } from '../../data/tags';
+
+type Product = {
+    id: string;
+    tag: string;
+    name: string;
+    price: number;
+    image: ImageSourcePropType;
+    description: string;
+}
+
+type SectionListDataProps = {
+    title: string;
+    data: Product[];
+}
 
 const TabHeader: React.FC<{tabs: Array<string>, activeTab: number, onPressTab: (index: number) => void}> = ( {tabs, activeTab, onPressTab } ) => (
     <ScrollView
@@ -40,6 +57,19 @@ const TabHeader: React.FC<{tabs: Array<string>, activeTab: number, onPressTab: (
 );
 
 export function Home() {
+    // const [coffees, setCoffees] = useState<Product[]>([...PRODUCTS]);
+
+    const initialData: SectionListDataProps = {title: '', data: []}
+
+    const tabsHeaderName = TAGS.map(tag => tag.name);
+    
+    const sectionListData = TAGS.map(tag => {
+        return {
+            title: tag.name,
+            data: PRODUCTS.filter(product => product.tag === tag.name),
+        }
+    })
+
     const [activeTab, setActiveTab] = useState(0);
     const sectionListRef = useRef<any>(null);
 
@@ -48,28 +78,6 @@ export function Home() {
     const introContainerPosition = useSharedValue(0)
 
     const navigation = useNavigation();
-
-    const [coffees, setCoffees] = useState([{title: 'tradicionais', data: [
-        {id: 1, name: 'Irlandês', description: 'lorem ipsum dolor'},
-        {id: 2, name: 'Café com leite 1', description: 'lorem ipsum dolor'}
-      ]},
-      {title: 'doces', data: [
-          {id: 12, name: 'Irlandês 2', description: 'lorem ipsum dolor'},
-          {id: 13, name: 'Árabe 6', description: 'lorem ipsum dolor'},
-      ]},
-      {title: 'especiais', data: [
-          {id: 14, name: 'Café com leite7', description: 'lorem ipsum dolor'},
-          {id: 3, name: 'Árabe', description: 'lorem ipsum dolor'},
-          {id: 4, name: 'Café com leite 2', description: 'lorem ipsum dolor'},
-          {id: 5, name: 'Árabe 2', description: 'lorem ipsum dolor'},
-          {id: 6, name: 'Café com leite 3', description: 'lorem ipsum dolor'},
-          {id: 7, name: 'Árabe 3', description: 'lorem ipsum dolor'},
-          {id: 8, name: 'Café com leite 4', description: 'lorem ipsum dolor'},
-          {id: 9, name: 'Árabe 4', description: 'lorem ipsum dolor'},
-          {id: 10, name: 'Café com leite 5', description: 'lorem ipsum dolor'},
-          {id: 11, name: 'Árabe 5', description: 'lorem ipsum dolor'},
-    ]}])
-
 
     // const onPressTitle = useCallback((index: number) => {
     //     console.log("listRef", listRef)
@@ -82,34 +90,12 @@ export function Home() {
     //     }
     //   }, [coffees])
 
-      const renderItem = ({ item }: SectionListRenderItemInfo<{
-        id: number;
-        name: string;
-        description: string;
-    }, {
-        title: string;
-        data: ({
-            id: number;
-            name: string;
-            description: string;
-        } | undefined)[];
-    }>) => (
-          <CoffeeItem onPress={() => handleNavigateToProduct(1)} />
+      const renderItem = ({ item }: SectionListRenderItemInfo<Product, SectionListDataProps>) => (
+          <CoffeeItem {...item} onPress={() => handleNavigateToProduct(item.id)} />
       );
 
   const renderSectionHeader = ({ section }: {
-    section: SectionListData<{
-        id: number;
-        name: string;
-        description: string;
-    }, {
-        title: string;
-        data: ({
-            id: number;
-            name: string;
-            description: string;
-        } | undefined)[];
-    }>}) => (
+    section: SectionListData<Product, SectionListDataProps>}) => (
         <SectionTitle>
             {section.title}
         </SectionTitle>
@@ -124,13 +110,13 @@ export function Home() {
     //   )
     // }, [coffees])
 
-
   const onViewableItemsChanged = ({ viewableItems }: {
         viewableItems: ViewToken[];
         changed: ViewToken[];
     }) => {
+
         if (viewableItems.length > 0) {
-            const sectionIndex = coffees.findIndex((section) => section.title === viewableItems[0].section.title);
+            const sectionIndex = sectionListData.findIndex(({title}) => title === viewableItems[0].section.title);
         if (sectionIndex !== -1) {
             setActiveTab(sectionIndex);
         }
@@ -139,6 +125,7 @@ export function Home() {
 
   const scrollToSection = (sectionIndex: number) => {
     if (sectionListRef.current) {
+
       sectionListRef.current.scrollToLocation({
         sectionIndex,
         itemIndex: 0,
@@ -150,7 +137,6 @@ export function Home() {
 
   const handleTabPress = (index: number) => {
     if (activeTab !== index) {
-        setActiveTab(index);
         scrollToSection(index);
     }
   };
@@ -197,8 +183,8 @@ export function Home() {
         scrollY.value = event.translationY <= -220 ? -220 : event.translationY;
     })
 
-    function handleNavigateToProduct(productId: number) {
-        navigation.navigate('product')
+    function handleNavigateToProduct(productId: string) {
+        navigation.navigate('product', {productId})
     }
 
     return (
@@ -238,26 +224,33 @@ export function Home() {
                                 </CoffeeFilterTitle>
 
                                 <TabHeader
-                                    tabs={['tradicionais', 'doces', 'especiais']}
+                                    tabs={tabsHeaderName}
                                     activeTab={activeTab}
                                     onPressTab={(index) => handleTabPress(index)}
                                 />
                             </AnimatedCoffeeFilterContainer>
 
-                            <SectionList
+                            <AnimatedSectionList
+                                windowSize={10} // Ajuste conforme necessário
                                 ref={sectionListRef}
-                                sections={coffees}
-                                keyExtractor={(item, index) => String(item?.id)}
-                                renderItem={(props) => renderItem(props)}
-                                contentContainerStyle={{gap: 32, paddingTop: 8, paddingHorizontal: 32, paddingBottom: 80, backgroundColor: COLORS.GRAY_900}}
-                                renderSectionHeader={(data) => renderSectionHeader(data)}
-                                stickySectionHeadersEnabled={false} // Desativar seções pegajosas
                                 initialNumToRender={20} // Ajuste conforme necessário
                                 maxToRenderPerBatch={10} // Ajuste conforme necessário
-                                windowSize={10} // Ajuste conforme necessário
-                                removeClippedSubviews={true}
-                                onViewableItemsChanged={(items) => onViewableItemsChanged(items)}
+                                sections={sectionListData}
                                 onEndReachedThreshold={0.1}
+                                removeClippedSubviews={true}
+                                stickySectionHeadersEnabled={false} // Desativar seções pegajosas
+                                showsVerticalScrollIndicator={false}
+                                renderItem={(props) => renderItem(props)}
+                                keyExtractor={(item, index) => String(item?.id)}
+                                renderSectionHeader={(data) => renderSectionHeader(data)}
+                                onViewableItemsChanged={(items) => onViewableItemsChanged(items)}
+                                contentContainerStyle={{
+                                    gap: 32, 
+                                    paddingTop: 8, 
+                                    paddingHorizontal: 32, 
+                                    paddingBottom: 120, 
+                                    backgroundColor: COLORS.GRAY_900,
+                                }}
                             />
                         </Animated.View>
 
