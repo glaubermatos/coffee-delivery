@@ -1,18 +1,11 @@
 import { Counter } from "@components/Counter";
 import { About, Actions, Container, Info, ItemValue, Name, ProductImage, Size, Title, TrashButton } from "./styles";
 
-import irlandesImg from '@assets/irlandes.png'
-import { IconButton } from "@components/IconButton";
 import { Trash } from "phosphor-react-native";
 import { useTheme } from "styled-components/native";
-import { TouchableOpacity } from "react-native";
-import Animated, { FadeInDown, FadeInRight, FadeInUp, SlideInDown } from "react-native-reanimated";
-import { useRef } from "react";
-import { SwipeableProps } from "react-native-gesture-handler/lib/typescript/components/Swipeable";
 import { StorageCartItemProps } from "@storage/dtos/storageCartItemProps";
 import { priceFormatter } from "@utils/currencyFormater";
 
-const AnimatedContainer = Animated.createAnimatedComponent(Container);
 
 type Props = {
     index: number;

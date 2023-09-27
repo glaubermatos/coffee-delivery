@@ -6,36 +6,41 @@ import { useTheme } from "styled-components/native";
 import { Badge } from "@components/Badge";
 import { useNavigation } from "@react-navigation/native";
 import Toast from "react-native-toast-message";
+import { useCart } from "@hooks/index";
 
-const AnimatedContainer = Animated.createAnimatedComponent(Container)
+type Props = {
+    quantity: number;
+    productName: string;
+    size: string;
+}
 
-export const MessageItemAddedToCart: React.FC = () => {
+
+export const MessageItemAddedToCart: React.FC<Props> = ({quantity, productName, size}) => {
+    const { cart } = useCart();
+
     const { COLORS } = useTheme();
     const navigation = useNavigation();
 
     function handleNavigateToCart() {
-        Toast.hide();
         navigation.navigate('cart');
+        Toast.hide();
     }
 
     return (
         <Container
-            // sharedTransitionTag="messageAddedItemToCart"
-            // entering={FadeInUp.duration(400).easing(Easing.quad)}
-            // exiting={SlideOutDown.delay(4000).duration(400)}
             onPress={handleNavigateToCart}
         >
             <Content>
                 <CartIconContainer>
                     <ShoppingCart size={20} color={COLORS.WHITE} weight="fill" />
-                    <Badge value={1} />
+                    <Badge value={cart.length} />
                 </CartIconContainer>
 
                 <Message>
-                    {`1 café `} 
-                    <Highlight>Irlandês</Highlight> 
+                    {`${quantity} caf${quantity > 1 ? 'és' : 'é'} `} 
+                    <Highlight>{productName}</Highlight> 
                     {` de `} 
-                    <Highlight>227ml</Highlight>
+                    <Highlight>{size}</Highlight>
                     {` adicionado ao carrinho`} 
                 </Message>
 

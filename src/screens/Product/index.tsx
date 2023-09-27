@@ -96,9 +96,11 @@ export function Product() {
 
         Toast.show({
             type: 'info',
+            text1: `${quantity},${product?.name}`,
+            text2: productSizeSelected
         })
 
-        setTimeout(() => {navigation.goBack();}, 300);
+        setTimeout(() => {navigation.goBack();}, 200);
     }
 
     async function errorAnimation() {
