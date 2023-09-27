@@ -2,6 +2,7 @@ import { ImageSourcePropType, TouchableOpacityProps } from "react-native";
 import { Container, Content, Currency, Description, Image, Info, Name, Price, Value } from "./styles";
 
 import irlandesImg from '@assets/irlandes.png'
+import { priceFormatter } from "@utils/currencyFormater";
 
 type Props = TouchableOpacityProps & {
     id: string;
@@ -29,7 +30,7 @@ export function CoffeeItem({id, tag, name, price, image, description, ...rest}: 
 
                 <Price>
                     <Currency>R$</Currency>
-                    <Value>{price}</Value>
+                    <Value>{priceFormatter.format(price)}</Value>
                 </Price>
             </Content>
         </Container>

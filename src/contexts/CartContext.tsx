@@ -24,6 +24,8 @@ export const CartProvider: React.FC<CartProviderProps> = ({children}) => {
           const storageResponse = await cartStorageAddItem(productInput);
           setCart(storageResponse);
 
+          await fetchCart();
+
         } catch (error) {
           throw error;
         }
@@ -33,17 +35,27 @@ export const CartProvider: React.FC<CartProviderProps> = ({children}) => {
         try {
           const response = await cartStorageRemoveItem(productId);
           setCart(response);
+
+          await fetchCart();
           
         } catch (error) {
           throw error;
         }
       }
 
+    async function fetchCart() {
+      try {
+        const response = await cartStorageGetAll();
+        setCart(response);
+        
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
     useEffect(() => {
-      cartStorageGetAll()
-        .then(storedCart => setCart(storedCart))
-        .catch(error => console.log(error));
-    }, []);
+      fetchCart();
+    }, [cart]);
 
     return (
         <CartContext.Provider

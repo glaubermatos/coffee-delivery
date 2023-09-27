@@ -17,9 +17,10 @@ export const SwipeableCard = styled(Swipeable).attrs(({theme}) => ({
 }))``;
 
 export const SwipeableRemoveContainer = styled.View`
-    width: 90px;
+    width: 100%;
     border-radius: 6px;
     background-color: ${({ theme }) => theme.COLORS.RED_LIGHT};
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
+    padding-left: 32px;
 `;    

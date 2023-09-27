@@ -10,15 +10,17 @@ import Animated, { FadeInDown, FadeInRight, FadeInUp, SlideInDown } from "react-
 import { useRef } from "react";
 import { SwipeableProps } from "react-native-gesture-handler/lib/typescript/components/Swipeable";
 import { StorageCartItemProps } from "@storage/dtos/storageCartItemProps";
+import { priceFormatter } from "@utils/currencyFormater";
 
 const AnimatedContainer = Animated.createAnimatedComponent(Container);
 
 type Props = {
     index: number;
     data: StorageCartItemProps;
+    onRemoveProduct: (id: string, index: number) => void;
 }
 
-export const CartItem: React.FC<Props> = ({data, index}) => {
+export const CartItem: React.FC<Props> = ({data, index, onRemoveProduct}) => {
     const { COLORS } = useTheme();
 
     return (
@@ -33,13 +35,13 @@ export const CartItem: React.FC<Props> = ({data, index}) => {
                         <Size>{data.size}</Size>
                     </Title>
 
-                    <ItemValue>R$ {data.price}</ItemValue>
+                    <ItemValue>R$ {priceFormatter.format(data.price)}</ItemValue>
                 </About>
 
                 <Actions>
                     <Counter quantity={data.quantity} onChangeQuantity={() => {}} showBorders />
 
-                    <TrashButton>
+                    <TrashButton onPress={() => onRemoveProduct(data.id, index)}>
                         <Trash size={20} color={COLORS.PURPLE} weight="regular" />
                     </TrashButton>
                 </Actions>

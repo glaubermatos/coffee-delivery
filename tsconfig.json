@@ -13,6 +13,7 @@
       "@hooks/*": ["./src/hooks/*"],
       "@storage/*": ["./src/storage/*"],
       "@data/*": ["./src/data/*"],
+      "@utils/*": ["./src/utils/*"],
     }
   }
 }

@@ -11,8 +11,8 @@ export const cartStorageAddItem = async (productInput: StorageCartItemProps) => 
 
     if (productExists.length > 0) {
         stored = stored.map(product => {
-        if (product.id === productInput.id) {
-          product.quantity = Number(product.quantity) + Number(productInput.quantity)
+        if (product.id === productExists[0].id) {
+          product.quantity = Number(productExists[0].quantity) + Number(productInput.quantity)
         }
 
         return product;

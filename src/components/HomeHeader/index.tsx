@@ -67,7 +67,9 @@ export function HomeHeader({style, introContainerPosition = undefined, shownBack
                     color={shownBackButton ? COLORS.WHITE : COLORS.YELLOW_DARK} 
                     onPress={handleNavigateToCart}
                 >
-                    <Badge value={cart.length} />
+                    {
+                        cart.length > 0 && <Badge value={cart.length} /> 
+                    }
                 </IconButton>
             </Animated.View>
         </ContainerAnimated>

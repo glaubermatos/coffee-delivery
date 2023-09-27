@@ -57,12 +57,8 @@ const TabHeader: React.FC<{tabs: Array<string>, activeTab: number, onPressTab: (
 );
 
 export function Home() {
-    // const [coffees, setCoffees] = useState<Product[]>([...PRODUCTS]);
-
-    const initialData: SectionListDataProps = {title: '', data: []}
-
     const tabsHeaderName = TAGS.map(tag => tag.name);
-    
+
     const sectionListData = TAGS.map(tag => {
         return {
             title: tag.name,
@@ -167,7 +163,7 @@ export function Home() {
 
     const onPanUp = Gesture
     .Pan()
-    .activateAfterLongPress(100)
+    .activateAfterLongPress(80)
     .onUpdate((event) => {
         if (event.translationY < 0) {
             introContainerPosition.value = event.translationY

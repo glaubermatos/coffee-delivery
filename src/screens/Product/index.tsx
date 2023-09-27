@@ -27,6 +27,7 @@ const AnimatedSelectionTitle = Animated.createAnimatedComponent(SelectionTitle);
 // const AnimatedOption = Animated.createAnimatedComponent(Option);
 
 import {PRODUCTS} from '@data/products';
+import { priceFormatter } from "@utils/currencyFormater";
 
 
 type ProductSize = {
@@ -55,7 +56,7 @@ type RouteParamsProps = {
 
 export function Product() {
     const [hasBeenAddedToCart, setHasBeenAddedToCart] = useState(false);
-    const [productSizes, setProductSizes] = useState<ProductSize[]>(DATA);
+    const [sizes] = useState<ProductSize[]>(DATA);
     const [productSizeSelected, setProductSizeSelected] = useState('');
     const [product, setProduct] = useState<Product | undefined>(undefined);
     const [quantity, setQuantity] = useState(1);
@@ -97,7 +98,7 @@ export function Product() {
             type: 'info',
         })
 
-        setTimeout(() => {navigation.goBack();}, 700);
+        setTimeout(() => {navigation.goBack();}, 300);
     }
 
     async function errorAnimation() {
@@ -153,7 +154,7 @@ export function Product() {
                         
                         <Price>
                             <Currency>R$</Currency>
-                            <Value>{product?.price}</Value>
+                            <Value>{priceFormatter.format(product?.price!)}</Value>
                         </Price>
                     </Main>
 
@@ -184,7 +185,7 @@ export function Product() {
 
                                 <OptionsListContainer>
                                     {
-                                        productSizes.map((size) => (
+                                        sizes.map((size) => (
                                             <Animated.View
                                                 style={
                                                     [selectSizeOptionAnimatedStyle, {
@@ -228,8 +229,6 @@ export function Product() {
                         </Animated.View>
                     )
                 }
-
-                
             </Footer>
         </AnimatedContainer>
     )
