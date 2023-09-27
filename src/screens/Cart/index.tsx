@@ -18,7 +18,7 @@ import { cartStorageRemoveItem } from "@storage/cart/CartStorageRemoveItem";
 import { BorderlessButton } from "react-native-gesture-handler";
 
 export const Cart: React.FC = () => {
-    const { cart } = useCart();
+    const { cart, removeProductCart } = useCart();
 
     const swipeableRefs = useRef<Swipeable[]>([]);
 
@@ -26,12 +26,12 @@ export const Cart: React.FC = () => {
         swipeableRefs.current?.[index].close();
     }
 
-    async function remove(id: string, index: number) {
-        await cartStorageRemoveItem(id);
+    async function remove(item: StorageCartItemProps, index: number) {
+        await removeProductCart(item.id);
     }
   
-    function handleRemove(id: string, index: number) {
-        remove(id, index)
+    function handleRemove(item: StorageCartItemProps, index: number) {
+        remove(item, index)
     //   Alert.alert(
     //     'Remover',
     //     'Deseja remover do carrinho?',
@@ -69,13 +69,13 @@ export const Cart: React.FC = () => {
                             />
                         </SwipeableRemoveContainer>
                     )}
-                    onSwipeableOpen={() => handleRemove(item.id, index)}
+                    onSwipeableOpen={() => handleRemove(item, index)}
                     renderRightActions={() => null}
                 >
                     <CartItem 
                         data={item} 
                         index={index}
-                        onRemoveProduct={() => handleRemove(item.id, index)}
+                        onRemoveProduct={() => handleRemove(item, index)}
                     />
                 </SwipeableCard>
             </Animated.View>
@@ -99,57 +99,57 @@ export const Cart: React.FC = () => {
             {
                 cart.length > 0 ? (
                     <View style={{flex: 1}}>
-                    <Animated.ScrollView
-                        style={{flex: 1}}
-                        showsVerticalScrollIndicator={false}
-                        layout={Layout.springify()}   
-                    >
-                        {
-                            cart.map((item, index) => (
-                                <Animated.View 
-                                    key={item.id}
-                                    entering={FadeInDown.delay(index * 50).duration(200)}
-                                    exiting={SlideOutRight}
-                                    // layout={Layout.springify()}    
-                                >
-                                    <SwipeableCard
-                                        ref={(ref) => {
-                                            if (ref) {
-                                                swipeableRefs.current.push(ref)
-                                            }
-                                        }}
-                                        overshootRight={false}
-                                        overshootLeft={false}
-                                        leftThreshold={10}
-                                        renderLeftActions={() => (
-                                            <SwipeableRemoveContainer>
-                                                <Trash
-                                                    size={32}
-                                                    color={THEME.COLORS.RED_DARK}
-                                                />
-                                            </SwipeableRemoveContainer>
-                                        )}
-                                        onSwipeableOpen={() => handleRemove(item.id, index)}
-                                        renderRightActions={() => null}
+                        <Animated.ScrollView
+                            style={{flex: 1}}
+                            showsVerticalScrollIndicator={false}
+                            layout={Layout.springify()}   
+                        >
+                            {
+                                cart.map((item, index) => (
+                                    <Animated.View 
+                                        key={String(item.id+item.size)}
+                                        entering={FadeInDown.delay(index * 50).duration(200)}
+                                        exiting={SlideOutRight}
+                                        layout={Layout.springify()}    
                                     >
-                                        <CartItem 
-                                            data={item} 
-                                            index={index}
-                                            onRemoveProduct={() => handleRemove(item.id, index)}
-                                        />
-                                    </SwipeableCard>
-                                </Animated.View>                                
-                            ))
-                        }
-                    </Animated.ScrollView>
+                                        <SwipeableCard
+                                            ref={(ref) => {
+                                                if (ref) {
+                                                    swipeableRefs.current.push(ref)
+                                                }
+                                            }}
+                                            overshootRight={false}
+                                            overshootLeft={false}
+                                            leftThreshold={10}
+                                            renderLeftActions={() => (
+                                                <SwipeableRemoveContainer>
+                                                    <Trash
+                                                        size={32}
+                                                        color={THEME.COLORS.RED_DARK}
+                                                    />
+                                                </SwipeableRemoveContainer>
+                                            )}
+                                            onSwipeableOpen={() => handleRemove(item, index)}
+                                            renderRightActions={() => null}
+                                        >
+                                            <CartItem 
+                                                data={item} 
+                                                index={index}
+                                                onRemoveProduct={() => handleRemove(item, index)}
+                                            />
+                                        </SwipeableCard>
+                                    </Animated.View>                                
+                                ))
+                            }
+                        </Animated.ScrollView>
 
-                    <Animated.View
-                        entering={FadeInDown.delay(500).duration(300)}
-                        exiting={FadeOutDown}
-                    >
-                        <Order />
-                    </Animated.View>
-                </View>
+                        <Animated.View
+                            entering={FadeInDown.delay(500).duration(300)}
+                            exiting={FadeOutDown}
+                        >
+                            <Order />
+                        </Animated.View>
+                    </View>
                 ) : (
                     <Animated.View
                         entering={FadeInDown.duration(300)}

@@ -1,5 +1,6 @@
 import { cartStorageAddItem } from "@storage/cart/CartStorageAddItem";
 import { cartStorageGetAll } from "@storage/cart/CartStorageGetAll";
+import { cartStorageRemoveAll } from "@storage/cart/CartStorageRemoveAll";
 import { cartStorageRemoveItem } from "@storage/cart/CartStorageRemoveItem";
 import { StorageCartItemProps } from "@storage/dtos/storageCartItemProps";
 import { ReactNode, createContext, useEffect, useState } from "react";
@@ -8,6 +9,7 @@ type CartContextData = {
     cart: StorageCartItemProps[];
     addProductCart: (productInput: StorageCartItemProps) => Promise<void>;
     removeProductCart: (productId: string) => Promise<void>;
+    clearCart: () => void;
 }
 
 export const CartContext = createContext<CartContextData>({} as CartContextData);
@@ -24,8 +26,6 @@ export const CartProvider: React.FC<CartProviderProps> = ({children}) => {
           const storageResponse = await cartStorageAddItem(productInput);
           setCart(storageResponse);
 
-          await fetchCart();
-
         } catch (error) {
           throw error;
         }
@@ -36,7 +36,15 @@ export const CartProvider: React.FC<CartProviderProps> = ({children}) => {
           const response = await cartStorageRemoveItem(productId);
           setCart(response);
 
-          await fetchCart();
+        } catch (error) {
+          throw error;
+        }
+      }
+    
+      async function clearCart() {
+        try {
+          await cartStorageRemoveAll();
+          setCart([]);
           
         } catch (error) {
           throw error;
@@ -62,7 +70,8 @@ export const CartProvider: React.FC<CartProviderProps> = ({children}) => {
             value={{
                 cart, 
                 addProductCart, 
-                removeProductCart
+                removeProductCart,
+                clearCart
             }}
         >
             {children}

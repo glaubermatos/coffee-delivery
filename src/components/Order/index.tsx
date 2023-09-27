@@ -3,14 +3,16 @@ import { Container, Row, Label, Value } from "./styles";
 import { useNavigation } from "@react-navigation/native";
 import { useCart } from "@hooks/index";
 import { priceFormatter } from "@utils/currencyFormater";
+import { cartStorageRemoveAll } from "@storage/cart/CartStorageRemoveAll";
 
 export const Order: React.FC = () => {
-    const { cart } = useCart();
+    const { cart, clearCart } = useCart();
     const navigation = useNavigation();
 
     const total = cart.reduce((acc, item) => acc += item.price * item.quantity, 0);
 
     const handleNavigateToPurchaseCompleted = () => {
+        clearCart();
         navigation.navigate("purchase-completed");
     }
 
