@@ -18,6 +18,8 @@ export const Container = styled.View<Props>`
 
 export const CounterValue = styled.Text`
  ${({ theme }) => css`
+      width: 20px;
+      text-align: center;
       font-family: ${theme.FONT_FAMILY.ROBOTO.REGULAR};
       color: ${theme.COLORS.GRAY_100};
       font-size: ${theme.FONT_SIZE.ROBOTO.MD}px;

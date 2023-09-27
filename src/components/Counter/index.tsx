@@ -5,32 +5,26 @@ import { useTheme } from "styled-components/native";
 import { useState } from "react";
 
 type Props = CounterStyleProps & {
-    onChangeQuantity: React.Dispatch<React.SetStateAction<number>>;
     quantity: number;
+    onDecrement: () => void;
+    onIncrement: () => void;
+    disabled?: boolean;
 };
 
-export const Counter: React.FC<Props> = ({onChangeQuantity, quantity, showBorders = false}) => {
-
+export const Counter: React.FC<Props> = ({quantity, showBorders = false, onDecrement, onIncrement, disabled = false}) => {
     const {  COLORS } = useTheme();
-
-    function handleAddItem() {
-        onChangeQuantity(previewState => previewState + 1);
-    }
-
-    function handleRemoveItem() {
-        onChangeQuantity(previewState => previewState - 1);
-    }
 
     return (
         <Container
             showBorders={showBorders}
         >
             <IconButton 
-                icon={Minus} 
+                icon={Minus}
+                disabled={disabled}
                 size={20} 
                 weight="bold" 
                 color={COLORS.PURPLE} 
-                onPress={handleRemoveItem}
+                onPress={onDecrement}
             />
 
             <CounterValue>
@@ -39,10 +33,11 @@ export const Counter: React.FC<Props> = ({onChangeQuantity, quantity, showBorder
 
             <IconButton 
                 icon={Plus} 
+                disabled={disabled}
                 size={20} 
                 weight="bold" 
                 color={COLORS.PURPLE} 
-                onPress={handleAddItem}
+                onPress={onIncrement}
             />
         </Container>
     );

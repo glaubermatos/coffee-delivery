@@ -62,10 +62,10 @@ export const ItemValue = styled.Text`
 
 export const Actions = styled.View`
     flex-direction: row;
-    gap: 8px;
+    justify-content: space-between;
 `;
 
-export const TrashButton = styled.TouchableOpacity`
+export const RemoveButton = styled.TouchableOpacity`
     background-color: ${({ theme }) => theme.COLORS.GRAY_700} ;
     padding: 8px;
 

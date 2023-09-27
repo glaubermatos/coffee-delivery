@@ -129,6 +129,19 @@ export function Product() {
       }
     });
 
+    const incrementeQuantity = async (increment: boolean) => {
+        let counter = 1;
+
+        if (increment) {
+            setQuantity(prev => prev + 1);
+        } else {
+            if (quantity === 0) {
+                return
+            }
+            setQuantity(prev => prev - 1);
+        }
+    }
+
     useEffect(() => {
         const product = PRODUCTS.find((prod) => prod.id === productId)
 
@@ -210,7 +223,12 @@ export function Product() {
                             </Selection>
 
                             <AddToCartContainer>
-                                <Counter quantity={quantity} onChangeQuantity={setQuantity} showBorders={false} />
+                                <Counter 
+                                    quantity={quantity} 
+                                    onDecrement={() => incrementeQuantity(false)}
+                                    onIncrement={() => incrementeQuantity(true)}
+                                    showBorders={false} 
+                                />
 
                                 <Button 
                                     style={{

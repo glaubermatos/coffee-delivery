@@ -1,11 +1,16 @@
 import { Button } from "@components/Button";
 import { Container, Row, Label, Value } from "./styles";
 import { useNavigation } from "@react-navigation/native";
+import { useCart } from "@hooks/index";
+import { priceFormatter } from "@utils/currencyFormater";
 
 export const Order: React.FC = () => {
+    const { cart } = useCart();
     const navigation = useNavigation();
 
-    function handleNavigateToPurchaseCompleted() {
+    const total = cart.reduce((acc, item) => acc += item.price * item.quantity, 0);
+
+    const handleNavigateToPurchaseCompleted = () => {
         navigation.navigate("purchase-completed");
     }
 
@@ -13,7 +18,7 @@ export const Order: React.FC = () => {
         <Container>
             <Row>
                 <Label>Valor total</Label>
-                <Value>R$ 9,90</Value>
+                <Value>R$ {priceFormatter.format(total)}</Value>
             </Row>
 
             <Button 

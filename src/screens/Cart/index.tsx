@@ -99,9 +99,10 @@ export const Cart: React.FC = () => {
             {
                 cart.length > 0 ? (
                     <View style={{flex: 1}}>
-                    <ScrollView
+                    <Animated.ScrollView
                         style={{flex: 1}}
                         showsVerticalScrollIndicator={false}
+                        layout={Layout.springify()}   
                     >
                         {
                             cart.map((item, index) => (
@@ -140,7 +141,7 @@ export const Cart: React.FC = () => {
                                 </Animated.View>                                
                             ))
                         }
-                    </ScrollView>
+                    </Animated.ScrollView>
 
                     <Animated.View
                         entering={FadeInDown.delay(500).duration(300)}
