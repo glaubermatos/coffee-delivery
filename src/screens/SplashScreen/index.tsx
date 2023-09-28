@@ -58,33 +58,26 @@ export function SplashScreen() {
     const { COLORS } = useTheme();
 
     async function backgroundCircleAnimate() {
-      CIRCLE_SIZE.value = withSpring(CIRCLE_SIZE_MAX, {
+      CIRCLE_SIZE.value = withDelay(400, withSpring(CIRCLE_SIZE_MAX, {
           mass: 1,
           damping: 15,
           stiffness: 60,
-      });
+      }));
     }
 
     async function logoAnimate() {
-      TEXT_LOGO_OFFSET.value = withSpring(0, {
-          mass: 1,
-          damping: 15,
-          stiffness: 60,
-      });
+      TEXT_LOGO_OFFSET.value = withDelay(800, withSpring(0, {
+        mass: 1,
+        damping: 15,
+        stiffness: 60,
+    }));
     }
 
    useEffect(() => {
-        setTimeout(() => {
-          backgroundCircleAnimate();
-        }, 400);
-        
-
-        setTimeout(() => {
-          logoAnimate();
-        }, 1200);
+      backgroundCircleAnimate();
+      logoAnimate();
       
       setTimeout(() => {
-
         navigation.navigate('home');
       }, 2000);
 
