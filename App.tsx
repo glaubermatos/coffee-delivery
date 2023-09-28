@@ -9,6 +9,7 @@ import { Roboto_400Regular, Roboto_700Bold } from '@expo-google-fonts/roboto';
 import { ActivityIndicator, StatusBar, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { CartProvider } from '@contexts/CartContext';
+import { SplashScreen } from '@screens/SplashScreen';
 
 
 export default function App() {
@@ -39,9 +40,12 @@ export default function App() {
               translucent
           />
 
+
           <CartProvider>
             <Routes />
           </CartProvider>
+
+
         {/* </SafeAreaProvider> */}
 
       </ThemeProvider>

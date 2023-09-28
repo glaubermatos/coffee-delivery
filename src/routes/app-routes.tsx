@@ -4,13 +4,14 @@ import { Cart } from '@screens/Cart';
 import { Home } from '@screens/Home';
 import { Product } from '@screens/Product';
 import { PurchaseCompleted } from '@screens/PurchaseCompleted';
+import { SplashScreen } from '@screens/SplashScreen';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
 export function AppRoutes() {
 
     return (
-        <Navigator screenOptions={{ 
+        <Navigator initialRouteName='splash' screenOptions={{ 
             headerShown: false,
             animation:'slide_from_right',
             animationDuration: 250,
@@ -22,6 +23,11 @@ export function AppRoutes() {
                 // cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
             // ...TransitionPresets.SlideFromRightIOS, 
         }}>
+            <Screen 
+                name='splash'
+                component={SplashScreen}
+            />
+
             <Screen 
                 name='home'
                 component={Home}
