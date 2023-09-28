@@ -27,7 +27,7 @@ import { useCart } from '@hooks/index';
 import { PRODUCTS } from '../../data/products';
 import { TAGS } from '../../data/tags';
 
-type Product = {
+export type Product = {
     id: string;
     tag: string;
     name: string;

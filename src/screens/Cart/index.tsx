@@ -13,9 +13,6 @@ import { Button } from "@components/Button";
 import { CartListEmpty } from "@components/CartListEmpty";
 import { StorageCartItemProps } from "@storage/dtos/storageCartItemProps";
 import { useCart } from "@hooks/index";
-import { cartStorageGetAll } from "@storage/cart/CartStorageGetAll";
-import { cartStorageRemoveItem } from "@storage/cart/CartStorageRemoveItem";
-import { BorderlessButton } from "react-native-gesture-handler";
 
 export const Cart: React.FC = () => {
     const { cart, removeProductCart } = useCart();

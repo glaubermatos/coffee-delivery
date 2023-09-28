@@ -3,11 +3,11 @@ import { StorageCartItemProps } from '@storage/dtos/storageCartItemProps';
 import { CART_COLLECTION } from '@storage/storageConfig';
 import { cartStorageGetAll } from './CartStorageGetAll';
 
-export const cartStorageRemoveItem = async (productId: string) => {
+export const cartStorageRemoveItem = async (itemId: string) => {
   try {
     const stored = await cartStorageGetAll();
 
-    const productsUpdated = stored.filter(product => product.id !== productId);
+    const productsUpdated = stored.filter(item => item.id !== itemId);
     await AsyncStorage.setItem(CART_COLLECTION, JSON.stringify(productsUpdated));
 
     return productsUpdated;

@@ -80,12 +80,22 @@ export function Product() {
     }
 
 
-    async function handleAddToCart(productInput: StorageCartItemProps) {
+    async function handleAddToCart() {
         if (productSizeSelected === '') {
             await playSound(false);
             
             errorAnimation()
             return;
+        }
+
+        const productInput: StorageCartItemProps = {
+            id: Date.now().toString(),
+            productId: product?.id!,
+            name: product?.name!,
+            image: product?.image!,
+            price: product?.price!,
+            quantity,
+            size: productSizeSelected
         }
 
         setHasBeenAddedToCart(true);
@@ -236,14 +246,7 @@ export function Product() {
                                         opacity: productSizeSelected !== '' ? 1 : 0.4,
                                     }} 
                                     name="Adicionar" 
-                                    onPress={() => handleAddToCart({
-                                        id: product?.id!,
-                                        name: product?.name!,
-                                        image: product?.image!,
-                                        price: product?.price!,
-                                        quantity,
-                                        size: productSizeSelected
-                                    })}
+                                    onPress={handleAddToCart}
                                 />
                             </AddToCartContainer>
                         </Animated.View>

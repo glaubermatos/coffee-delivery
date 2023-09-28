@@ -1,21 +1,21 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { StorageCartItemProps } from '@storage/dtos/storageCartItemProps';
 import { CART_COLLECTION } from '@storage/storageConfig';
 import { cartStorageGetAll } from './CartStorageGetAll';
+import { StorageCartItemProps } from '@storage/dtos/storageCartItemProps';
 
 export const cartStorageAddItem = async (productInput: StorageCartItemProps) => {
   try {
     let stored = await cartStorageGetAll();
 
-    const productExists = stored.filter(product => product.id === productInput.id);
+    const productExistentsInCart = stored.filter(item => (item.productId === productInput.productId) && (item.size === productInput.size));
 
-    if (productExists.length > 0 ) {
-        stored = stored.map(product => {
-        if (product.id === productExists[0].id) {
-          product.quantity = Number(productExists[0].quantity) + Number(productInput.quantity)
+    if (productExistentsInCart.length > 0 ) {
+        stored = stored.map(item => {
+        if (item.productId === productExistentsInCart[0].productId && item.size === productExistentsInCart[0].size) {
+          item.quantity = Number(productExistentsInCart[0].quantity) + Number(productInput.quantity)
         }
 
-        return product;
+        return item;
       });
 
     } else {
