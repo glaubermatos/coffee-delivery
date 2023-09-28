@@ -4,6 +4,8 @@ import { CoffeeCardSizeProps, Container, Content, Currency, Description, Image, 
 import irlandesImg from '@assets/irlandes.png'
 import { PressableProps, TouchableOpacityProps } from "react-native";
 import Animated, { Easing, SlideInRight, FadeInRight, SlideInUp, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
+import { Product } from "@screens/Home";
+import { priceFormatter } from "@utils/currencyFormater";
 
 const AnimatedTouchableOpacity = Animated.createAnimatedComponent(Container)
 
@@ -11,9 +13,10 @@ const AnimatedTouchableOpacity = Animated.createAnimatedComponent(Container)
 type Props = PressableProps & {
     size?: CoffeeCardSizeProps;
     index: number;
+    data: Product;
 }
 
-export function CoffeeCard({size = "DEFAULT", index, ...rest}: Props) {
+export function CoffeeCard({size = "DEFAULT", index, data, ...rest}: Props) {
     return (
         <AnimatedTouchableOpacity 
             entering={SlideInRight.delay(300 + index * 150).duration(800).damping(15)}
@@ -22,23 +25,23 @@ export function CoffeeCard({size = "DEFAULT", index, ...rest}: Props) {
         >
             <Content>
                 <Image 
-                    source={irlandesImg}
+                    source={data.image}
                     width={64}
                     height={64}
                 />
 
                 <Tag
                     size={size}
-                    name="Especial"
+                    name={data.tag}
                 />
 
                 <Info>
                     <Name>
-                        Irlandês
+                        {data.name}
                     </Name>
 
                     <Description>
-                        Bebida a base de café, uísque irlandês, açúcar e chantilly
+                        {data.description}
                     </Description>
                 </Info>
 
@@ -48,7 +51,7 @@ export function CoffeeCard({size = "DEFAULT", index, ...rest}: Props) {
                     </Currency>
 
                     <Value>
-                        9,90
+                        {priceFormatter.format(data.price)}
                     </Value>
                 </Price>
             </Content>

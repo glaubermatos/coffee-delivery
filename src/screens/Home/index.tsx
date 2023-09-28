@@ -18,12 +18,6 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native';
 const AnimatedCoffeeFilterContainer = Animated.createAnimatedComponent(CoffeeFilterContainer);
 const AnimatedSectionList = Animated.createAnimatedComponent<SectionListProps<Product, SectionListDataProps>>(SectionList);
 
-import { SharedTransition } from 'react-native-reanimated';
-import { IconButton } from '@components/IconButton';
-import { ShoppingCart } from 'phosphor-react-native';
-import { MessageItemAddedToCart } from '@components/MessageItemAddedToCart';
-import { useCart } from '@hooks/index';
-
 import { PRODUCTS } from '../../data/products';
 import { TAGS } from '../../data/tags';
 
