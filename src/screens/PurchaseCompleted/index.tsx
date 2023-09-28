@@ -7,6 +7,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Animated, { BounceInLeft, Easing, FadeIn, FadeInDown, SlideInLeft } from "react-native-reanimated";
 import { Audio } from "expo-av";
 import { useEffect } from "react";
+import { BackHandler } from "react-native";
 
 export const PurchaseCompleted: React.FC = () => {
     const navigation = useNavigation();
@@ -16,6 +17,7 @@ export const PurchaseCompleted: React.FC = () => {
 
     function handleNavigateToHome() {
         navigation.navigate('home');
+        return true;
     }
 
     async function playSound() {
@@ -29,6 +31,12 @@ export const PurchaseCompleted: React.FC = () => {
 
     useEffect(() => {
         playSound();
+    }, [])
+
+    useEffect(() => {
+        const backHAndler = BackHandler.addEventListener('hardwareBackPress', handleNavigateToHome)
+
+        return () => backHAndler.remove();
     }, [])
 
     return (

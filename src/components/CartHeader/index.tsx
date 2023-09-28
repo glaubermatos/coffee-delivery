@@ -7,8 +7,10 @@ import { TouchableOpacity, View, ViewProps } from "react-native";
 import { ReactNode } from "react";
 import { Badge } from "@components/Badge";
 import { Container, Title } from "./styles";
+import { useNavigation } from "@react-navigation/native";
 
 export const CartHeader: React.FC = () => {
+    const navigation = useNavigation();
     const { COLORS } = useTheme();
 
     const insets = useSafeAreaInsets();
@@ -22,7 +24,13 @@ export const CartHeader: React.FC = () => {
                 entering={SlideInLeft.duration(400).delay(250)}
                 exiting={SlideOutRight.duration(400)}
             >
-                <IconButton icon={ArrowLeft} size={24} color={COLORS.GRAY_100} weight="regular"  />
+                <IconButton 
+                    onPress={navigation.goBack}
+                    icon={ArrowLeft} 
+                    size={24} 
+                    color={COLORS.GRAY_100} 
+                    weight="regular"
+                />
             </Animated.View>
 
             <Title>Carrinho</Title>

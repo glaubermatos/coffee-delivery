@@ -47,7 +47,13 @@ export function HomeHeader({style, introContainerPosition = undefined, shownBack
                             entering={SlideInLeft.duration(400).delay(250)}
                             exiting={FadeOutRight.duration(200)}
                         >
-                            <IconButton icon={ArrowLeft} size={24} color={COLORS.WHITE} weight="regular"  />
+                            <IconButton 
+                                onPress={navigation.goBack}
+                                icon={ArrowLeft} 
+                                size={24} 
+                                color={COLORS.WHITE} 
+                                weight="regular"
+                            />
                         </Animated.View>
                     ) : (
                         <Location>
