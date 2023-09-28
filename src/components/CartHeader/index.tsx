@@ -20,10 +20,10 @@ export const CartHeader: React.FC = () => {
         <Container
             style={[{paddingTop}]}
         >
-            <Animated.View 
+            {/* <Animated.View 
                 entering={SlideInLeft.duration(400).delay(250)}
                 exiting={SlideOutRight.duration(400)}
-            >
+            > */}
                 <IconButton 
                     onPress={navigation.goBack}
                     icon={ArrowLeft} 
@@ -31,7 +31,7 @@ export const CartHeader: React.FC = () => {
                     color={COLORS.GRAY_100} 
                     weight="regular"
                 />
-            </Animated.View>
+            {/* </Animated.View> */}
 
             <Title>Carrinho</Title>
 

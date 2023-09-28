@@ -157,7 +157,7 @@ export function Home() {
 
     const onPanUp = Gesture
     .Pan()
-    .activateAfterLongPress(80)
+    .activateAfterLongPress(120)
     .onUpdate((event) => {
         if (event.translationY < 0) {
             introContainerPosition.value = event.translationY

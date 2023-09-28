@@ -1,15 +1,13 @@
 import { CartHeader } from "@components/CartHeader";
 import { Container, SwipeableCard, SwipeableRemoveContainer } from "./styles";
 import { Order } from "@components/Order";
-import { Alert, FlatList, ListRenderItemInfo, ScrollView, StyleSheet, Text, View } from "react-native";
+import { ListRenderItemInfo, View } from "react-native";
 import { CartItem } from "@components/CartItem";
-import Swipeable, { SwipeableProps } from "react-native-gesture-handler/Swipeable";
-import React, { useRef, useState } from "react";
-import { useTheme } from "styled-components/native";
+import Swipeable from "react-native-gesture-handler/Swipeable";
+import React, { useRef } from "react";
 import THEME from '@theme/defaultTheme'
-import { ShoppingCart, Trash } from "phosphor-react-native";
-import Animated, { FadeInDown, FadeOut, FadeOutDown, Layout, SlideInRight, SlideOutRight } from "react-native-reanimated";
-import { Button } from "@components/Button";
+import { Trash } from "phosphor-react-native";
+import Animated, { FadeInDown, FadeOutDown, Layout, SlideOutRight } from "react-native-reanimated";
 import { CartListEmpty } from "@components/CartListEmpty";
 import { StorageCartItemProps } from "@storage/dtos/storageCartItemProps";
 import { useCart } from "@hooks/index";
@@ -105,9 +103,8 @@ export const Cart: React.FC = () => {
                                 cart.map((item, index) => (
                                     <Animated.View 
                                         key={String(item.id+item.size)}
-                                        entering={FadeInDown.delay(index * 50).duration(200)}
+                                        // entering={FadeInDown.delay(index * 150).duration(200)}
                                         exiting={SlideOutRight}
-                                        layout={Layout.springify()}    
                                     >
                                         <SwipeableCard
                                             ref={(ref) => {

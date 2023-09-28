@@ -43,10 +43,10 @@ export function HomeHeader({style, introContainerPosition = undefined, shownBack
         >
             {
                 shownBackButton ? (
-                        <Animated.View 
-                            entering={SlideInLeft.duration(400).delay(250)}
-                            exiting={FadeOutRight.duration(200)}
-                        >
+                        // <Animated.View 
+                        //     entering={SlideInLeft.duration(400).delay(250)}
+                        //     exiting={FadeOutRight.duration(200)}
+                        // >
                             <IconButton 
                                 onPress={navigation.goBack}
                                 icon={ArrowLeft} 
@@ -54,7 +54,7 @@ export function HomeHeader({style, introContainerPosition = undefined, shownBack
                                 color={COLORS.WHITE} 
                                 weight="regular"
                             />
-                        </Animated.View>
+                        // </Animated.View>
                     ) : (
                         <Location>
                             <MapPin weight="fill" size={20} color={COLORS.PURPLE} />
