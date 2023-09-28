@@ -7,11 +7,26 @@ import VectorLogoImg from '@assets/vector-logo.svg'
 import TextLogoImg from '@assets/type-logo.svg'
 import Animated, { Extrapolate, interpolate, useAnimatedStyle, useSharedValue, withDelay, withSpring, withTiming } from 'react-native-reanimated';
 
-export function SplashScreen() {
-//    const backgroundFade = useRef(new Animated.Value(0)).current;
-//    const logoFade = useRef(new Animated.Value(0)).current;
-//    const logoMovement = useRef(new Animated.Value(0)).current;
+import { useFonts, Baloo2_400Regular, Baloo2_700Bold } from '@expo-google-fonts/baloo-2';
+import { Roboto_400Regular, Roboto_700Bold } from '@expo-google-fonts/roboto';
 
+
+export function SplashScreen() {
+
+  const [fontsLoaded] = useFonts({
+    Baloo2_400Regular,
+    Baloo2_700Bold,
+    Roboto_400Regular,
+    Roboto_700Bold
+  })
+
+  // if (!fontsLoaded) {
+  //   return (
+  //     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+  //       <ActivityIndicator />
+  //     </View>
+  //   );
+  // }
 
   const CIRCLE_SIZE = useSharedValue(0);
   const CIRCLE_SIZE_MAX = 1200;
@@ -59,13 +74,17 @@ export function SplashScreen() {
     }
 
    useEffect(() => {
-        backgroundCircleAnimate();
+        setTimeout(() => {
+          backgroundCircleAnimate();
+        }, 400);
+        
 
         setTimeout(() => {
           logoAnimate();
-        }, 800);
+        }, 1200);
       
       setTimeout(() => {
+
         navigation.navigate('home');
       }, 2000);
 
