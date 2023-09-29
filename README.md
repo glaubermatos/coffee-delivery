@@ -11,11 +11,11 @@
   
 </p>
 
-<!-- <h1 align="center">
-    <img src="https://github.com/glaubermatos/assets/blob/main/algalog-web/algalog.jpg" width="800px" />
+<h1 align="center">
+    <img src="https://github.com/glaubermatos/assets/blob/main/coffee-delivery/cover.png" width="800px" />
     <br />
     <br />
-</h1> -->
+</h1>
 
 
 <h4 align="center"> 
