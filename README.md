@@ -78,6 +78,8 @@ Na tela `Home` temos 5 tipos de animações implementadas:
 - Alteração do Header e da listagem geral de cafés no momento de scroll na listagem de cafés por categoria.
 - Toast informando que o café foi adicionado ao carrinho.
 
+<video src='https://github.com/glaubermatos/assets/blob/main/coffee-delivery/videos/Screen_Recording_20230929-092408_Expo%20Go.mp4' width=450/>
+
 ### Adicionar ao carrinho
 
 Na tela de adicionar um café ao carrinho temos 2 tipos de animações:
