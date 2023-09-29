@@ -71,25 +71,6 @@ O desafio proposto consiste em desenvolver toda a interface visual de um app de 
 ## ⚙️ Animações
 <br />
 
-[![Watch the video](https://github.com/glaubermatos/assets/blob/main/coffee-delivery/cover.png)](https://www.youtube.com/embed/tJBvi7VhQQg)
-
-[<img src="https://github.com/glaubermatos/assets/blob/main/coffee-delivery/cover.png" width="800" height="600"
-/>](https://www.youtube.com/embed/tJBvi7VhQQg)
-
-
-<video src='https://youtube.com/shorts/tJBvi7VhQQg?feature=share' width=390></video>
-
-<video src='https://github.com/glaubermatos/assets/raw/main/coffee-delivery/videos/Screen_Recording_20230929-092646_Expo%20Go.mp4' width=390></video>
-
-<video src='https://github.com/glaubermatos/assets/raw/main/coffee-delivery/videos/Screen_Recording_20230929-095707_Expo%20Go.mp4' width=390></video>
-
-<video src='https://github.com/glaubermatos/assets/raw/main/coffee-delivery/videos/Screen_Recording_20230929-095839_Expo%20Go.mp4' width=390></video>
-
-<video src='https://github.com/glaubermatos/assets/raw/main/coffee-delivery/videos/Screen_Recording_20230929-095929_Expo%20Go.mp4' width=390></video>
-
-
-
-
 ### Home
 
 Na tela `Home` temos 5 tipos de animações implementadas:
