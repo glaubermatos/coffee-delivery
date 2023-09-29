@@ -69,6 +69,21 @@ O desafio proposto consiste em desenvolver toda a interface visual de um app de 
 <a name="-animacoes"></a>
 
 ## ⚙️ Animações
+<br />
+
+<video src='https://github.com/glaubermatos/assets/raw/main/coffee-delivery/videos/Screen_Recording_20230929-092408_Expo%20Go.mp4' width=390></video>
+
+<video src='https://github.com/glaubermatos/assets/raw/main/coffee-delivery/videos/Screen_Recording_20230929-092646_Expo%20Go.mp4' width=390></video>
+
+<video src='https://github.com/glaubermatos/assets/raw/main/coffee-delivery/videos/Screen_Recording_20230929-095707_Expo%20Go.mp4' width=390></video>
+
+<video src='https://github.com/glaubermatos/assets/raw/main/coffee-delivery/videos/Screen_Recording_20230929-095839_Expo%20Go.mp4' width=390></video>
+
+<video src='https://github.com/glaubermatos/assets/raw/main/coffee-delivery/videos/Screen_Recording_20230929-095929_Expo%20Go.mp4' width=390></video>
+
+
+
+
 ### Home
 
 Na tela `Home` temos 5 tipos de animações implementadas:
@@ -78,7 +93,6 @@ Na tela `Home` temos 5 tipos de animações implementadas:
 - Alteração do Header e da listagem geral de cafés no momento de scroll na listagem de cafés por categoria.
 - Toast informando que o café foi adicionado ao carrinho.
 
-<video src='https://github.com/glaubermatos/assets/blob/main/coffee-delivery/videos/Screen_Recording_20230929-092408_Expo%20Go.mp4' width=450></video>
 
 ### Adicionar ao carrinho
 
