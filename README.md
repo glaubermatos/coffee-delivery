@@ -71,6 +71,8 @@ O desafio proposto consiste em desenvolver toda a interface visual de um app de 
 ## ⚙️ Animações
 <br />
 
+[![Watch the video]()](https://github.com/glaubermatos/assets/raw/main/coffee-delivery/videos/Screen_Recording_20230929-092408_Expo%20Go.mp4)
+
 <video src='https://github.com/glaubermatos/assets/raw/main/coffee-delivery/videos/Screen_Recording_20230929-092408_Expo%20Go.mp4' width=390></video>
 
 <video src='https://github.com/glaubermatos/assets/raw/main/coffee-delivery/videos/Screen_Recording_20230929-092646_Expo%20Go.mp4' width=390></video>
