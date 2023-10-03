@@ -27,9 +27,9 @@
 <p>
  👉<a href="#-sobre-o-projeto" style="text-decoration: none; "> Sobre</a> <br/>
 👉<a href="#-funcionalidades" style="text-decoration: none; "> Funcionalidades</a> <br/>
+👉<a href="#-layout" style="text-decoration: none"> Layout</a> <br/>
 👉<a href="#-animacoes" style="text-decoration: none; "> Animações</a> <br/>
 <!-- 👉<a href="#-melhorias" style="text-decoration: none; "> Melhorias</a> <br/> -->
-<!-- 👉<a href="#-layout" style="text-decoration: none"> Layout</a> <br/> -->
 <!-- 👉<a href="#-demonstracao" style="text-decoration: none"> Demonstração</a> <br/> -->
 👉<a href="#-como-executar-o-projeto" style="text-decoration: none"> Como executar</a> <br/>
 👉<a href="#-tecnologias" style="text-decoration: none"> Tecnologias</a> <br/>
@@ -46,7 +46,7 @@ Desafio 5 da trilha de **React Native** do **Ignite**.
 
 O objetivo deste desafio é reforçar os **conceitos de Animações e Microinteração** no React Native.
 
-O desafio proposto consiste em desenvolver toda a interface visual de um app de delivery de café, aplicando animações e microinterações, como:
+O desafio proposto consiste em desenvolver do zero, toda a interface visual de um app de delivery de café, aplicando animações e microinterações, como:
 
 - Animações com Reanimated
 - Microinterações
@@ -66,10 +66,20 @@ O desafio proposto consiste em desenvolver toda a interface visual de um app de 
 - [x] Remover items do carrinho;
 - [x] Finalizar pedido;
 
+
+## 🎨 Layout
+Layout da aplicação **[Figma](https://www.figma.com/community/file/1245817631079079109/Coffee-Delivery-%E2%80%A2-Desafio-React-Native)**
+
+---
+
 <a name="-animacoes"></a>
 
 ## ⚙️ Animações
-<br />
+### Splash screen
+- Animação de entrada
+- Animação da logo
+  
+https://github.com/glaubermatos/coffee-delivery/assets/10993285/a0d1f4b3-ef20-4f13-9c1f-267c61875fce 
 
 ### Home
 
@@ -80,13 +90,22 @@ Na tela `Home` temos 5 tipos de animações implementadas:
 - Alteração do Header e da listagem geral de cafés no momento de scroll na listagem de cafés por categoria.
 - Toast informando que o café foi adicionado ao carrinho.
 
+https://github.com/glaubermatos/coffee-delivery/assets/10993285/b4eb97ba-c205-40f7-a3a6-cdf69f989430
 
-### Adicionar ao carrinho
+
+
+### Carrinho
 
 Na tela de adicionar um café ao carrinho temos 2 tipos de animações:
 
 - Animação do tamanho do café selecionado.
 - Animação da cor do botão, em caso o tamanho estar ou não selecionado.
+- Remover item do carrinho a partir de um swipe.
+
+https://github.com/glaubermatos/coffee-delivery/assets/10993285/0224170a-1c18-435a-afd3-8c5681438f81
+
+https://github.com/glaubermatos/coffee-delivery/assets/10993285/b85b88f0-a184-4d62-828b-733a1806b055
+
 
 ### Pedido confirmado
 
@@ -95,13 +114,7 @@ Na tela de pedido confirmado temos 2 tipos de animações:
 - Animação entrada do SVG.
 - Animação de entrada dos textos.
 
-
-<!-- ## 🎨 Layout
-Layout construído com o **[Figma](https://www.figma.com)**
-
-- **[Layout Frontend]()** (Disponível em breve)
-
---- -->
+https://github.com/glaubermatos/coffee-delivery/assets/10993285/0efdbedf-e082-4b02-aad3-ec30411dd930
 
 <!-- <a name="-demonstracao"></a>
 
