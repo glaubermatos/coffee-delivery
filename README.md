@@ -30,7 +30,7 @@
 👉<a href="#-layout" style="text-decoration: none"> Layout</a> <br/>
 👉<a href="#-animacoes" style="text-decoration: none; "> Animações</a> <br/>
 <!-- 👉<a href="#-melhorias" style="text-decoration: none; "> Melhorias</a> <br/> -->
-<!-- 👉<a href="#-demonstracao" style="text-decoration: none"> Demonstração</a> <br/> -->
+👉<a href="#-demonstracao" style="text-decoration: none"> Demonstração</a> <br/>
 👉<a href="#-como-executar-o-projeto" style="text-decoration: none"> Como executar</a> <br/>
 👉<a href="#-tecnologias" style="text-decoration: none"> Tecnologias</a> <br/>
 👉<a href="#-autor" style="text-decoration: none"> Autor</a> <br/>
@@ -116,15 +116,17 @@ Na tela de pedido confirmado temos 2 tipos de animações:
 
 https://github.com/glaubermatos/coffee-delivery/assets/10993285/0efdbedf-e082-4b02-aad3-ec30411dd930
 
-<!-- <a name="-demonstracao"></a>
+<a name="-demonstracao"></a>
 
 ## 🕹️ Demonstração
 
-<a align="center" href="https://www.linkedin.com/posts/glaubermatos_desenvolvimentoweb-springboot-nextjs-activity-6905992105182015488-CfRu">
+<!-- <a align="center" href="https://www.linkedin.com/posts/glaubermatos_desenvolvimentoweb-springboot-nextjs-activity-6905992105182015488-CfRu">
     <img alt="happy-web" src="https://img.shields.io/static/v1?label=post&message=algalog-web&color=F1972C&style=flat&logo=linkedin">
-</a> 
+</a> -->
 
---- -->
+[![Vídeo de demonstração do app coffee-delivery](http://img.youtube.com/vi/n8nc5JDuIfc/0.jpg)](https://youtu.be/n8nc5JDuIfc)
+
+---
 
 ## 🚀 Como executar o projeto
 
